@@ -9,8 +9,8 @@ public class GameCharacter : MonoBehaviour
     int Defense_point;//방어력 최대수치 100
     bool can_attacked;//1=공격받을수있다 0=공격받을수없다
     bool can_ataack;//1=공격할수있다 0=공격할수없다
-    protected float move_speed=1.0f;//이동속도
-    protected float jump_force=30.0f;//점프높이
+    public float move_speed=1.0f;//이동속도
+    public float jump_force=30.0f;//점프높이
     
     int direct;//캐릭터의 방향 1, -1 만 허용
     
