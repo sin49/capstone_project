@@ -12,6 +12,7 @@ public class PlayerCharacter : GameCharacter
     public Vector2 horiz;
     public Vector2 jump_vec;
     public bool onground;//¶¥¿¡ ´ê¾Ò´ÂÁö
+    public int direction;//right=1 left=-1;
     public Vector3 move_vector;
     public bool minimum_jump_check;
     public bool jump_check;
@@ -20,11 +21,9 @@ public class PlayerCharacter : GameCharacter
     public float jump_height;
     public Vector2 jump_start_pos;
     public Vector2 jump_height_pos;
-    Attack p_atk;
     void Start()
     {
         rgd = gameObject.GetComponent<Rigidbody2D>();
-        p_atk = gameObject.GetComponent<Attack>();
         max_jump_count = 1;
         jump_count = max_jump_count;
         direction = 1;
@@ -32,53 +31,46 @@ public class PlayerCharacter : GameCharacter
     }
     void FixedUpdate()
     {
-        if (!death_check)
+        character_move();
+        if (transform.rotation.y > 360)
+            transform.Rotate(0, -360, 0);
+        //if(rgd.velocity.y
+        
+        if (Input.GetButton("Jump"))
         {
-            character_move();
-            //if(rgd.velocity.y
 
-            if (Input.GetButton("Jump"))
-            {
-
-                jump();
-            }
-            if (untouchable_state)
-                untouchable();
-            if (Health_point <= 0)
-                death();
+            jump();
         }
     }
     void Update()
     {
-        if (!death_check)
+        if (Input.GetButtonDown("Jump"))
         {
-            if (Input.GetButtonDown("Jump"))
+            if (jump_check)
             {
-                if (jump_check)
-                {
-                    jump_timer = 0;
-                    jump_check = false;
-                }
-
-                minimum_jump();
+                jump_timer = 0;
+                jump_check = false;
             }
-            if (rgd.velocity.y != 0)
-            {
-                onground = false;
-            }
-            else
-                onground = true;
 
-
-            if (!onground)
-            {
-                /*if (transform.position.y >= jump_height_pos.y&& rgd.velocity.y>0)
-                {
-                    rgd.velocity = new Vector2(rgd.velocity.x,rgd.velocity.y*0.1f);
-                }*/
-
-            }
+            minimum_jump();
         }
+        if (rgd.velocity.y != 0)
+        {
+            onground = false;
+        }
+        else
+            onground = true;
+
+
+        if (!onground)
+        {
+            /*if (transform.position.y >= jump_height_pos.y&& rgd.velocity.y>0)
+            {
+                rgd.velocity = new Vector2(rgd.velocity.x,rgd.velocity.y*0.1f);
+            }*/
+          
+        }
+        
     }
     new void character_move()
     {
@@ -88,7 +80,8 @@ public class PlayerCharacter : GameCharacter
         {
             if (direction == -1)
             {
-                direction_change();
+                direction = 1;
+                transform.Rotate(0, 180, 0);
             }
             move_vector = new Vector3(direction * move_speed * Time.deltaTime, 0, 0);
             transform.Translate(move_vector);
@@ -97,11 +90,13 @@ public class PlayerCharacter : GameCharacter
         {
             if (direction == 1)
             {
-                direction_change();
+                direction = -1;
+                transform.Rotate(0, 180, 0);
             }
             move_vector = new Vector3(direction * move_speed * Time.deltaTime * -1, 0, 0);
             transform.Translate(move_vector);
         }
+
 
         /*if (rgd.velocity.x>5)
             rgd.velocity=new Vector2(5,rgd.velocity.y);
@@ -195,28 +190,6 @@ public class PlayerCharacter : GameCharacter
 
         jump_timer += Time.deltaTime;
     }
-    void death()
-    {
-        Debug.Log("Á×À½!");
-        death_check = true;
-    }
-    void player_hitted(int dmg)
-    {
-        Debug.Log("µ¥¹ÌÁö Ã³¸®!");
-        character_lose_health(dmg);
-        if(!untouchable_state)
-            untouchable_state = true;
-    }
-    void untouchable()
-    {
-        if (untouchable_timer >= untouchable_time)
-        {
-            Debug.Log("¹«ÀûÇØÁ¦!");
-            untouchable_state = false;
-            untouchable_timer = 0;
-        }
-        untouchable_timer += Time.deltaTime;
-    }
     void OnCollisionStay2D(Collision2D other) // trigger? collision?
     {
         if (other.gameObject.CompareTag("Platform"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
@@ -226,16 +199,6 @@ public class PlayerCharacter : GameCharacter
             if (jump_count > max_jump_count)
                 jump_count = max_jump_count;
         }
-        else if (other.gameObject.CompareTag("Enemy"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
-        {
-
-            player_hitted(other.gameObject.GetComponent<GameCharacter>().Attack_point);
-            Debug.Log("ÇÇ°ÝµÊ");
-        }
-    }
-    void OnCollisionEnter2D(Collision2D other) // trigger? collision?
-    {
-        
     }
 }
 
