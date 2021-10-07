@@ -5,8 +5,10 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     public GameObject prefab;
+    public GameObject Gun;
     public GameObject Shoot;
-    // Start is called before the first frame update
+    public bool Dan = true;
+ 
     private float attackCoolTime;
     private float timer;
 
@@ -14,35 +16,50 @@ public class Attack : MonoBehaviour
     {
         attackCoolTime = 0.1f ;
         timer = 0f ;
+        
     }
-
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-
-        ShootAttack();
+        MouseAttack();
     }
+    
+   
 
-    void ShootAttack()
+    void MouseAttack()
     {
-        timer += Time.deltaTime;
+        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Gun.transform.rotation = rotation;
 
-        if (timer >= attackCoolTime)
+        if (Dan)
         {
-
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetMouseButton(0))
             {
-                ShootBullet();
+                if (Time.time >= timer)
+                {
+                    ShootBullet(Gun, Shoot);
+                    timer = Time.time + attackCoolTime;
+                }
             }
-            timer = 0;
-
         }
-       
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (Time.time >= timer)
+                {
+                    ShootBullet(Gun, Shoot);
+                    timer = Time.time + attackCoolTime;
+                }
+            }
+        }
     }
 
-    void ShootBullet()
+    void ShootBullet(GameObject Gun,GameObject Shoot)
     {
-        var myInstance = ObjectPool.GetObject(Shoot.transform);
+        Gun.transform.rotation = Gun.transform.rotation;
+        var myInstance = ObjectPool.GetObject(Gun.transform,Shoot.transform);
        
     }
 }

@@ -5,10 +5,11 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int Damge=0;
+    public int Speed=1;
     // Update is called once per frame
     void Update()
     {
-        this.transform.Translate(new Vector3(1,0,0) * 0.1f);
+        this.transform.Translate(new Vector3(Speed,0,0) * 0.1f);
         CameraCheck();
     }
   
