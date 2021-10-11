@@ -8,10 +8,10 @@ public class Attack : MonoBehaviour
     public GameObject Gun;
     public GameObject Shoot;
     public bool Dan = true;
- 
     private float attackCoolTime;
     private float timer;
-
+    Quaternion mouse_rotation;
+    public Vector2 direction;
     private void Start()
     {
         attackCoolTime = 0.1f ;
@@ -20,17 +20,28 @@ public class Attack : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        MouseAttack();
+<<<<<<< HEAD
+        mouse_point();
+        if (!p_chr.death_check)
+        {
+            MouseAttack();
+        }
     }
-    
+    void mouse_point()
+    {
+        direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        mouse_rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+=======
+        MouseAttack();
+>>>>>>> 1cecacbbde3a387f8e8be4a32fa6b44c6e2d697b
+    }
    
 
     void MouseAttack()
     {
-        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        Gun.transform.rotation = rotation;
+        
+        Gun.transform.rotation = mouse_rotation;
 
         if (Dan)
         {
@@ -55,8 +66,13 @@ public class Attack : MonoBehaviour
             }
         }
     }
+<<<<<<< HEAD
+   
+    void ShootBullet(GameObject Gun,GameObject Shoot,int damage)
+=======
 
     void ShootBullet(GameObject Gun,GameObject Shoot)
+>>>>>>> 1cecacbbde3a387f8e8be4a32fa6b44c6e2d697b
     {
         Gun.transform.rotation = Gun.transform.rotation;
         var myInstance = ObjectPool.GetObject(Gun.transform,Shoot.transform);
