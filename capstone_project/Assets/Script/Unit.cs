@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : GameCharacter
+public class Unit : MonoBehaviour
 {
-
+    public int Hp;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class Unit : GameCharacter
     {
         if (other.tag=="Bullet")
         {
-            character_lose_health(other.GetComponent<Bullet>().Damge);
+            Hp -= other.GetComponent<Bullet>().Damge;
             Debug.Log("ÃÑ¾Ë¸ÂÀ½");
             other.GetComponent<Bullet>().DestroyBullet();
         }
@@ -30,7 +30,7 @@ public class Unit : GameCharacter
     
     public void HpCheack()
     {
-        if(Health_point<=0)
+        if(Hp<=0)
         {
             Destroy(this.gameObject);
         }

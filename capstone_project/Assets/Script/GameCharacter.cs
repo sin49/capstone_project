@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class GameCharacter : MonoBehaviour
 {
-    public bool death_check;//사망 체크
-    public int Health_point;//채력
-    public int Attack_point;//공격력
-    public int Defense_point;//방어력 최대수치 100
-    public bool can_attacked;//1=공격받을수있다 0=공격받을수없다
-    public bool can_ataack;//1=공격할수있다 0=공격할수없다
+    int Health_point;//채력
+    protected float Attack_point;//공격력
+    int Defense_point;//방어력 최대수치 100
+    bool can_attacked;//1=공격받을수있다 0=공격받을수없다
+    bool can_ataack;//1=공격할수있다 0=공격할수없다
     public float move_speed=1.0f;//이동속도
     public float jump_force=30.0f;//점프높이
-    public bool untouchable_state;
-    public float untouchable_timer = 0;
-    public float untouchable_time = 0.5f;
-    public int direction=1;//캐릭터의 방향 1, -1 만 허용
+    
+    int direct;//캐릭터의 방향 1, -1 만 허용
     
     void Start()
     {
@@ -28,24 +25,14 @@ public class GameCharacter : MonoBehaviour
     {
         if (Defense_point > 100)
             Defense_point = 100;
-        /*if (Health_point <= 0)
-        {
-            character_death();
-        }*/
     }
-    protected void direction_change()//방향바꾸기 좌 우
+    void character_lose_health(GameObject obj)//obj=공격 오브젝트 피격시 체력을 잃는 계산식
     {
-        direction *= -1;
-        transform.Rotate(0, 180, 0);
-        if (transform.rotation.y > 360)
-            transform.Rotate(0, -360, 0);
-    }
-    public void character_lose_health(int dmg)//obj=공격 오브젝트 피격시 체력을 잃는 계산식
-    {
-        if (!untouchable_state)
+        if (can_attacked)
         {
+            GameCharacter gamecharacter_ = obj.GetComponent<GameCharacter>();
             float damage_lose = Defense_point / 100;
-            int damage = Mathf.RoundToInt(dmg * (1.0f - damage_lose));//데미지 계산식
+            int damage = Mathf.RoundToInt(gamecharacter_.Attack_point * (1.0f - damage_lose));//데미지 계산식
             if (damage == 0)
             {
                 damage = 1;
