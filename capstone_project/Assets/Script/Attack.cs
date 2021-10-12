@@ -39,7 +39,7 @@ public class Attack : MonoBehaviour
 
     void MouseAttack()
     {
-
+        
         Gun.transform.rotation = mouse_rotation;
 
         if (Dan)

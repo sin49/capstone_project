@@ -249,12 +249,32 @@ MonoBehaviour:
   horiz: {x: 0, y: 0}
   jump_vec: {x: 0, y: 0}
   onground: 0
+  ongrounded_jump_check: 0
   move_vector: {x: 0, y: 0, z: 0}
   minimum_jump_check: 0
   jump_check: 0
-  minimum_jump_vec3: {x: 0, y: 7}
+  minimum_jump_vec3: {x: 0, y: 12}
   minimum_jump_height: 3
   jump_height: 0
+  hangtime: 0.2
+  hangTimer: 0
+  jumpbuffertime: 0.2
+  jumpbuffertimer: 0
+  hitted_force: {x: 0, y: 0}
+  dash_force: 1000
+  dash_count: 1
+  max_dash_count: 1
+  after_dash_timer: 0
+  after_dash_timer_check: 0.05
+  dash_recover_check: 0
+  dash_recover_timer: 0
+  dash_recover_timer_check: 0.1
+  can_dash: 1
+  dash_direction: {x: 0, y: 0}
+  dash_time: 0.2
+  dash_timer: 0
+  can_move: 0
+  on_dash: 0
   jump_start_pos: {x: 0, y: 0}
   jump_height_pos: {x: 0, y: 0}
 --- !u!114 &444080140
@@ -274,6 +294,20 @@ MonoBehaviour:
   Gun: {fileID: 1299711434}
   Shoot: {fileID: 1388846923}
   Dan: 1
+  direction: {x: 0, y: 0}
+--- !u!114 &444080141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444080134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec236e4a3d2ee3a49a35826314f52946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill_slot_change: 0
 --- !u!1 &467694666 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5210300048753895601, guid: d474643c7fe1d0e448e5472feb76cca1, type: 3}
@@ -547,6 +581,7 @@ MonoBehaviour:
   Gun: {fileID: 1299711434}
   Shoot: {fileID: 1388846923}
   Dan: 1
+  direction: {x: 0, y: 0}
 --- !u!1 &1388846923
 GameObject:
   m_ObjectHideFlags: 0

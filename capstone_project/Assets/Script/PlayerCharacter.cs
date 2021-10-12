@@ -44,7 +44,11 @@ public class PlayerCharacter : GameCharacter
     public float dash_recover_timer;
     public float dash_recover_timer_check = 0.1f;
     public bool can_dash = true;
-
+    public Vector2 dash_direction;
+    public float dash_time = 1f;
+    public float dash_timer = 0;
+    public bool can_move;
+    public bool on_dash;
 
     Attack p_atk;
 
@@ -59,6 +63,7 @@ public class PlayerCharacter : GameCharacter
         jump_count = max_jump_count;
         direction = 1;
         jump_height = minimum_jump_height;
+        can_move = true;
     }
     void FixedUpdate()
     {
@@ -69,9 +74,8 @@ public class PlayerCharacter : GameCharacter
                 transform.Rotate(0, -360, 0);
             //if(rgd.velocity.y
 
-            character_move();
             //if(rgd.velocity.y
-            if (Input.GetButton("Jump"))
+            if (Input.GetButtonDown("Jump"))
             {
                 jumpbuffertimer = jumpbuffertime;
             }
@@ -96,6 +100,7 @@ public class PlayerCharacter : GameCharacter
             }
             if (Input.GetButtonUp("Jump") && rgd.velocity.y > 0)
             {
+                jumpbuffertimer = 0;
                 rgd.velocity = new Vector2(rgd.velocity.x, rgd.velocity.y * 0.5f);
             }
             if (untouchable_state)
@@ -121,7 +126,8 @@ public class PlayerCharacter : GameCharacter
             }
             if (!onground)
             {
-                hangTimer -= Time.deltaTime;
+                if(hangTimer>0)
+                    hangTimer -= Time.deltaTime;
             }
             else
             {
@@ -131,12 +137,13 @@ public class PlayerCharacter : GameCharacter
     }
     void dash_recover()
     {
-        if (dash_count != max_dash_count)
+        if (dash_count != max_dash_count&&dash_recover_check)
         {
             dash_recover_timer += Time.deltaTime;
-            if (dash_recover_timer >= dash_recover_timer_check && dash_recover_check)
+            if (dash_recover_timer >= dash_recover_timer_check)
             {
                 dash_count = max_dash_count;
+                dash_recover_timer = 0;
             }
 
 
@@ -144,39 +151,70 @@ public class PlayerCharacter : GameCharacter
     }
     void dash()
     {
+        if (Input.GetButtonDown("dash"))
+        {
+            Debug.Log("´ë½¬¹öÆ° È°¼ºÈ­");
+        }
         if (Input.GetButtonDown("dash") && dash_count != 0 && can_dash)
         {
-            Vector2 dash_direction = p_atk.direction / Mathf.Sqrt(Mathf.Pow(p_atk.direction.x, 2) + Mathf.Pow(p_atk.direction.y, 2));
-            rgd.AddForce(dash_direction * dash_force * Time.deltaTime, ForceMode2D.Impulse);
+            Debug.Log("´ë½Ã");
+            rgd.velocity = Vector2.zero;
+            can_move = false;
+            rgd.gravityScale = 0;
+            on_dash = true;
+            dash_timer = dash_time;
+            dash_direction = p_atk.direction / Mathf.Sqrt(Mathf.Pow(p_atk.direction.x, 2) + Mathf.Pow(p_atk.direction.y, 2))*dash_force;
+            rgd.AddForce(dash_direction *  Time.deltaTime, ForceMode2D.Impulse);
             dash_count--;
             can_dash = false;
             dash_recover_check = false;
         }
 
     }
+    void dash_end()
+    {
+        rgd.velocity = Vector2.zero;
+        can_move = true;
+        rgd.gravityScale = 1;
+        on_dash =false;
+    }
     new void character_move()
     {
         //ÀÌµ¿¼Óµµ¸¦ °Çµé ¶§ move_speed¿Í velocity.xÀÇ Á¦ÇÑ°ªÀ» °ÇµéÀÚ
-
-        if (Input.GetButton("Right"))
+        if (can_move)
         {
-            if (direction == -1)
+            if (Input.GetButton("Right"))
             {
-                direction_change();
+                if (direction == -1)
+                {
+                    direction_change();
+                }
+                move_vector = new Vector3(direction * move_speed * Time.deltaTime, 0, 0);
+                transform.Translate(move_vector);
             }
-            move_vector = new Vector3(direction * move_speed * Time.deltaTime, 0, 0);
-            transform.Translate(move_vector);
+            if (Input.GetButton("Left"))
+            {
+                if (direction == 1)
+                {
+                    direction_change();
+                }
+                move_vector = new Vector3(direction * move_speed * Time.deltaTime * -1, 0, 0);
+                transform.Translate(move_vector);
+            }
         }
-        if (Input.GetButton("Left"))
+        if (!on_dash)
         {
-            if (direction == 1)
-            {
-                direction_change();
-            }
-            move_vector = new Vector3(direction * move_speed * Time.deltaTime * -1, 0, 0);
-            transform.Translate(move_vector);
+            dash();
         }
-
+        else
+        {
+            dash_timer -= Time.deltaTime;
+            if (dash_timer <= 0)
+            {
+                dash_end();
+            }
+        }
+        dash_recover();
         /*if (rgd.velocity.x>5)
             rgd.velocity=new Vector2(5,rgd.velocity.y);
         else if (rgd.velocity.x< - 5)
@@ -229,8 +267,8 @@ public class PlayerCharacter : GameCharacter
     void minimum_jump()
     {
         jump_count--;
-        rgd.velocity = new Vector2(rgd.velocity.x, minimum_jump_vec3.y);
-
+        //rgd.velocity = new Vector2(rgd.velocity.x, minimum_jump_vec3.y);
+        rgd.AddForce(new Vector2(rgd.velocity.x, minimum_jump_vec3.y), ForceMode2D.Impulse);
     }
     void death()
     {
@@ -256,14 +294,16 @@ public class PlayerCharacter : GameCharacter
     }
     void OnCollisionStay2D(Collision2D other) // trigger? collision?
     {
-        if (other.gameObject.CompareTag("Platform"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
+       /* if (other.gameObject.CompareTag("Platform"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
         {
-
-            jump_count = max_jump_count;
+            if (!onground)
+            {
+                jump_count = max_jump_count;
+            }
             dash_recover_check = true;
             onground = true;
-        }
-        else if (other.gameObject.CompareTag("Enemy"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
+        }*/
+        if (other.gameObject.CompareTag("Enemy"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
         {
 
             player_hitted(other.gameObject.GetComponent<GameCharacter>().Attack_point);
@@ -272,7 +312,15 @@ public class PlayerCharacter : GameCharacter
     }
     void OnCollisionEnter2D(Collision2D other) // trigger? collision?
     {
-        
+        if (other.gameObject.CompareTag("Platform"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
+        {
+            if (!onground)
+            {
+                jump_count = max_jump_count;
+            }
+            dash_recover_check = true;
+            onground = true;
+        }
     }
 }
 
