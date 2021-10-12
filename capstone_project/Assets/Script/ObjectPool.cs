@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
     [SerializeField]
     private GameObject poolingObjectPrefab;
     Queue<Bullet> poolingObjectQueue = new Queue<Bullet>();
-
+    
     private void Awake()
     {
         Instance = this;
@@ -30,7 +30,7 @@ public class ObjectPool : MonoBehaviour
         newObj.transform.SetParent(this.transform);
         return newObj;
     }
-    public static Bullet GetObject(Transform Gun,Transform Shoot)    //오브젝트 받아오기
+    public static Bullet GetObject(Transform Gun,Transform Shoot,int dmg)    //오브젝트 받아오기
     {
         if (Instance.poolingObjectQueue.Count > 0)
         {
@@ -39,12 +39,14 @@ public class ObjectPool : MonoBehaviour
             obj.transform.position = Shoot.position;
             obj.transform.rotation = Gun.rotation;
             obj.gameObject.SetActive(true);
+            obj.gameObject.GetComponent<Bullet>().Damge = dmg;
             return obj;
         }
         else
         {
             var newObj = Instance.CreateNewObject();
             newObj.gameObject.SetActive(true);
+            newObj.gameObject.GetComponent<Bullet>().Damge = dmg;
             newObj.transform.SetParent(null);
             newObj.transform.position = Shoot.position;
             newObj.transform.rotation = Gun.rotation;
