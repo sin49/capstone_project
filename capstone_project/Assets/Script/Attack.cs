@@ -9,7 +9,8 @@ public class Attack : MonoBehaviour
     public GameObject Gun;
     public GameObject Shoot;
     public bool Dan = true;
- 
+    Quaternion mouse_rotation;
+    public Vector2 direction;
     private float attackCoolTime;
     private float timer;
 
@@ -21,18 +22,25 @@ public class Attack : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        mouse_point();
         if (!p_chr.death_check)
+        {
             MouseAttack();
+        }
     }
-    
-   
+    void mouse_point()
+    {
+        direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        mouse_rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        MouseAttack();
+    }
+
 
     void MouseAttack()
     {
-        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        Gun.transform.rotation = rotation;
+
+        Gun.transform.rotation = mouse_rotation;
 
         if (Dan)
         {
@@ -51,13 +59,12 @@ public class Attack : MonoBehaviour
             {
                 if (Time.time >= timer)
                 {
-                    ShootBullet(Gun, Shoot,p_chr.Attack_point);
+                    ShootBullet(Gun, Shoot, p_chr.Attack_point);
                     timer = Time.time + attackCoolTime;
                 }
             }
         }
     }
-
     void ShootBullet(GameObject Gun,GameObject Shoot,int damage)
     {
         Gun.transform.rotation = Gun.transform.rotation;
