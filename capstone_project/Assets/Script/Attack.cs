@@ -8,17 +8,17 @@ public class Attack : MonoBehaviour
     public GameObject prefab;
     public GameObject Gun;
     public GameObject Shoot;
-    public bool Dan = true;
     Quaternion mouse_rotation;
     public Vector2 direction;
-    private float attackCoolTime;
-    private float timer;
+
+
+
+    private bool FireState; // 미사일 발사 속도를 제어할 변수
 
     private void Start()
     {
-        attackCoolTime = 0.1f ;
-        timer = 0f ;
         p_chr = this.gameObject.GetComponent<PlayerCharacter>();
+        FireState = true;
     }
     private void FixedUpdate()
     {
@@ -37,38 +37,46 @@ public class Attack : MonoBehaviour
     }
 
 
-    void MouseAttack()
+    void MouseAttack()  //공격 버튼 처리
     {
         
         Gun.transform.rotation = mouse_rotation;
 
-        if (Dan)
+        if (Gun.GetComponent<Gun>().volley)
         {
-            if (Input.GetMouseButton(0))
+            if (FireState)
             {
-                if (Time.time >= timer)
+                if (Input.GetMouseButton(0))
                 {
-                    ShootBullet(Gun, Shoot, p_chr.Attack_point);
-                    timer = Time.time + attackCoolTime;
+                    StartCoroutine(FireCycleControl());
+                    ShootBullet(Gun, Shoot,Gun.GetComponent<Gun>().Damge + p_chr.Attack_point, Gun.GetComponent<Gun>().Speed);
                 }
             }
         }
         else
         {
-            if (Input.GetMouseButtonDown(0))
+            if (FireState)
             {
-                if (Time.time >= timer)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    ShootBullet(Gun, Shoot, p_chr.Attack_point);
-                    timer = Time.time + attackCoolTime;
+                    ShootBullet(Gun, Shoot, Gun.GetComponent<Gun>().Damge + p_chr.Attack_point, Gun.GetComponent<Gun>().Speed);
                 }
             }
         }
     }
-    void ShootBullet(GameObject Gun,GameObject Shoot,int damage)
+    void ShootBullet(GameObject Gun,GameObject Shoot,int damage,float speed)    //총 발사
     {
         Gun.transform.rotation = Gun.transform.rotation;
-        var myInstance = ObjectPool.GetObject(Gun.transform,Shoot.transform,damage);
-       
+        var myInstance = ObjectPool.GetObject(Gun.transform,Shoot.transform,damage,speed);
     }
+
+    IEnumerator FireCycleControl()
+    { // 처음에 FireState를 false로 만들고
+        var wait = new WaitForSeconds(Gun.GetComponent<Gun>().Delay);
+
+        FireState = false; // FireDelay초 후에
+        yield return wait; //FireState를 true로 만든다.
+        FireState = true;
+    }
+
 }

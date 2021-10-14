@@ -30,7 +30,7 @@ public class ObjectPool : MonoBehaviour
         newObj.transform.SetParent(this.transform);
         return newObj;
     }
-    public static Bullet GetObject(Transform Gun,Transform Shoot,int dmg)    //오브젝트 받아오기
+    public static Bullet GetObject(Transform Gun,Transform Shoot,int dmg, float spd)    //오브젝트 받아오기
     {
         if (Instance.poolingObjectQueue.Count > 0)
         {
@@ -40,6 +40,8 @@ public class ObjectPool : MonoBehaviour
             obj.transform.rotation = Gun.rotation;
             obj.gameObject.SetActive(true);
             obj.gameObject.GetComponent<Bullet>().Damge = dmg;
+            obj.gameObject.GetComponent<Bullet>().Speed = spd;
+            obj.gameObject.GetComponent<Bullet>().OutCheck = true;
             return obj;
         }
         else
@@ -47,6 +49,8 @@ public class ObjectPool : MonoBehaviour
             var newObj = Instance.CreateNewObject();
             newObj.gameObject.SetActive(true);
             newObj.gameObject.GetComponent<Bullet>().Damge = dmg;
+            newObj.gameObject.GetComponent<Bullet>().Speed = spd;
+            newObj.gameObject.GetComponent<Bullet>().OutCheck = true;
             newObj.transform.SetParent(null);
             newObj.transform.position = Shoot.position;
             newObj.transform.rotation = Gun.rotation;
