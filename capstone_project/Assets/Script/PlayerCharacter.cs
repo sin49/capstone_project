@@ -32,7 +32,7 @@ public class PlayerCharacter : GameCharacter
     public float jumpbuffertimer;
 
 
-    public Vector2 hitted_force;
+    
 
     [Header("dash input")]
     public float dash_force;
@@ -54,7 +54,14 @@ public class PlayerCharacter : GameCharacter
 
     public Vector2 jump_start_pos;
     public Vector2 jump_height_pos;
+    
 
+    [Header("hitted  input")]
+    public Vector2 hitted_force;
+    public float hitted_time = 1f;
+    public float hitted_timer = 0;
+    private bool on_hitted;
+    public Vector2 col_pos;
     void Start()
     {
         rgd = gameObject.GetComponent<Rigidbody2D>();
@@ -112,6 +119,7 @@ public class PlayerCharacter : GameCharacter
                 after_dash_timer += Time.deltaTime;
                 if (after_dash_timer >= after_dash_timer_check)
                 {
+
                     can_dash = true;
                     after_dash_timer = 0;
                 }
@@ -133,11 +141,20 @@ public class PlayerCharacter : GameCharacter
             {
                 hangTimer = hangtime;
             }
+
+            if (on_hitted)
+            {
+                hitted_timer -= Time.deltaTime;
+                if (hitted_timer <= 0)
+                {
+                    hitted_end();
+                }
+            }
         }
     }
     void dash_recover()
     {
-        if (dash_count != max_dash_count&&dash_recover_check)
+        if (dash_count != max_dash_count)
         {
             dash_recover_timer += Time.deltaTime;
             if (dash_recover_timer >= dash_recover_timer_check)
@@ -163,7 +180,14 @@ public class PlayerCharacter : GameCharacter
             rgd.gravityScale = 0;
             on_dash = true;
             dash_timer = dash_time;
-            dash_direction = p_atk.direction / Mathf.Sqrt(Mathf.Pow(p_atk.direction.x, 2) + Mathf.Pow(p_atk.direction.y, 2))*dash_force;
+            /*if (p_atk.direction.x >= 0)
+            {
+                dash_direction = Vector2.right * dash_force;
+            }else
+            {
+                dash_direction = Vector2.left * dash_force;
+            }*/
+            dash_direction =  Vector2.right*direction * dash_force;
             rgd.AddForce(dash_direction *  Time.deltaTime, ForceMode2D.Impulse);
             dash_count--;
             can_dash = false;
@@ -178,6 +202,7 @@ public class PlayerCharacter : GameCharacter
         rgd.gravityScale = 1;
         on_dash =false;
     }
+    
     new void character_move()
     {
         //ÀÌµ¿¼Óµµ¸¦ °Çµé ¶§ move_speed¿Í velocity.xÀÇ Á¦ÇÑ°ªÀ» °ÇµéÀÚ
@@ -192,7 +217,7 @@ public class PlayerCharacter : GameCharacter
                 move_vector = new Vector3(direction * move_speed * Time.deltaTime, 0, 0);
                 transform.Translate(move_vector);
             }
-            if (Input.GetButton("Left"))
+            else if (Input.GetButton("Left"))
             {
                 if (direction == 1)
                 {
@@ -292,6 +317,46 @@ public class PlayerCharacter : GameCharacter
         }
         untouchable_timer += Time.deltaTime;
     }
+    void player_hiited_force(Vector3 col_pos)
+    {
+        Vector3 col_direct = transform.position - col_pos;
+        int hit_direct;
+        if (col_direct.x > 0)
+        {
+            hit_direct = -1;
+        }
+        else
+        {
+            hit_direct = 1;
+        }
+        rgd.velocity = Vector2.zero;
+        can_move = false;
+        //rgd.gravityScale = 1;
+        rgd.AddForce(new Vector2(hitted_force.x*hit_direct,hitted_force.y),ForceMode2D.Impulse);
+        on_hitted = true;
+        hitted_timer = hitted_time;
+    }
+    void hitted_end()
+    {
+        rgd.velocity = Vector2.zero;
+        can_move = true;
+        //rgd.gravityScale = 1;
+        on_hitted = false;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
+        {
+            if (!untouchable_state)
+            {
+                col_pos = collision.transform.position;
+                player_hiited_force(col_pos);
+                player_hitted(collision.gameObject.GetComponentInParent<GameCharacter>().Attack_point);
+                Debug.Log("ÇÇ°ÝµÊ");
+            }
+        }
+    }
     void OnCollisionStay2D(Collision2D other) // trigger? collision?
     {
        /* if (other.gameObject.CompareTag("Platform"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
@@ -303,12 +368,7 @@ public class PlayerCharacter : GameCharacter
             dash_recover_check = true;
             onground = true;
         }*/
-        if (other.gameObject.CompareTag("Enemy"))//ÇÃ·§Æû¿¡ ´êÀ¸¸é Á¡ÇÁÈ½¼ö È¸º¹?
-        {
-
-            player_hitted(other.gameObject.GetComponent<GameCharacter>().Attack_point);
-            Debug.Log("ÇÇ°ÝµÊ");
-        }
+        
     }
     void OnCollisionEnter2D(Collision2D other) // trigger? collision?
     {
