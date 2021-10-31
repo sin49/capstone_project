@@ -267,3 +267,4 @@ MonoBehaviour:
   untouchable_timer: 0
   untouchable_time: 0.5
   direction: 1
+  prefab: {fileID: 8110904921393660992, guid: d810a36def7f183468afb97b9ce0e679, type: 3}
