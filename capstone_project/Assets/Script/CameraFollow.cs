@@ -14,6 +14,7 @@ public class CameraFollow : MonoBehaviour
     float height;
     float width;
 
+    
     private void Start()
     {
         height = Camera.main.orthographicSize;
@@ -22,16 +23,24 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime*speed);
-        //transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
+        if (GameObject.FindGameObjectWithTag("Player"))
+        {
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+        if (target != null)
+        {
+            transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * speed);
+            //transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
 
-        float lx = size.x * 0.5f - width;
-        float clampX = Mathf.Clamp(transform.position.x, -lx + center.x, lx + center.x);
+            float lx = size.x * 0.5f - width;
+            float clampX = Mathf.Clamp(transform.position.x, -lx + center.x, lx + center.x);
 
-        float ly = size.y * 0.5f - height;
-        float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
+            float ly = size.y * 0.5f - height;
+            float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
 
-        transform.position = new Vector3(clampX, clampY, -10f);
+            transform.position = new Vector3(clampX, clampY, -10f);
+        }
+        
     }
     private void OnDrawGizmos()
     {

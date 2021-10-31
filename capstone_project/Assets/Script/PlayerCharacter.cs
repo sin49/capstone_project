@@ -62,6 +62,8 @@ public class PlayerCharacter : GameCharacter
     public float hitted_timer = 0;
     private bool on_hitted;
     public Vector2 col_pos;
+    public bool col_on_room_boost;
+
     void Start()
     {
         rgd = gameObject.GetComponent<Rigidbody2D>();
@@ -374,12 +376,14 @@ public class PlayerCharacter : GameCharacter
     {
         if (other.gameObject.CompareTag("Platform"))//«√∑ß∆˚ø° ¥Í¿∏∏È ¡°«¡»Ωºˆ »∏∫π?
         {
-            if (!onground)
+            if (!onground&&(this.transform.position-other.gameObject.transform.position).y>0)
             {
+                Debug.Log("¡°«¡»∏∫π");
                 jump_count = max_jump_count;
+                dash_recover_check = true;
+                onground = true;
             }
-            dash_recover_check = true;
-            onground = true;
+
         }
     }
 }

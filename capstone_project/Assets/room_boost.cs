@@ -1,0 +1,74 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class room_boost : MonoBehaviour
+{
+    public bool active=true;
+    public float active_timer_max=2;
+    public float active_timer;
+    public GameObject grab_object;
+    public float Timer_max;
+    public float Timer;
+    public float force;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        active = true;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (grab_object != null&&active==true)
+        {
+            Timer -= Time.deltaTime;
+            if (Timer > 0) {
+                grab_object.GetComponent<PlayerCharacter>().col_on_room_boost = true;
+                grab_object.GetComponent<player_room_boost_mode>().boost_pos = this.transform.position;
+                Vector2 dir = (transform.position - grab_object.transform.position);
+                //if (Mathf.Sqrt(Mathf.Abs(dir.x)* Mathf.Abs(dir.y)) >0.1) { 
+                    grab_object.GetComponent<Rigidbody2D>().AddForce(dir * force);
+               // }
+                //else
+               // {
+                //    grab_object.GetComponent<Rigidbody2D>().AddForce(dir * force/2);
+                //}
+                    }
+            else
+            {
+                grab_object.GetComponent<player_room_boost_mode>().un_boost();
+                grab_object.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                grab_object = null;
+                active_timer = active_timer_max;
+                active = false;
+            }
+        }
+        if (active == false) {
+            active_timer -= Time.deltaTime;
+            if (active_timer < 0)
+                active = true;
+        } 
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player")&&active==true)
+        {
+            Debug.Log("붙잡기");
+            grab_object = collision.gameObject;
+            Timer = Timer_max;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Debug.Log("해제");
+            collision.gameObject.GetComponent<PlayerCharacter>().col_on_room_boost = false;
+            grab_object = null;
+            Timer = 0;
+        }
+    }
+}

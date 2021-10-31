@@ -9,6 +9,7 @@ TagManager:
   - Platform
   - Enemy
   - Item
+  - room
   layers:
   - Default
   - TransparentFX
@@ -20,9 +21,9 @@ TagManager:
   - Enemy
   - Player_attack
   - Enemy_attack
-  - 
-  - 
-  - 
+  - Player_on_boost
+  - platform_can_pass
+  - platform_can't_passs
   - 
   - 
   - 
