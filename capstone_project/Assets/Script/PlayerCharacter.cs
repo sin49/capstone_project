@@ -383,6 +383,10 @@ public class PlayerCharacter : GameCharacter
                 dash_recover_check = true;
                 onground = true;
             }
+            if (this.GetComponent<player_room_boost_mode>().on_boost)
+            {
+                this.GetComponent<player_room_boost_mode>().un_boost();
+            }
 
         }
     }

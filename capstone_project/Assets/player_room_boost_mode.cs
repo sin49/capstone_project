@@ -7,7 +7,7 @@ public class player_room_boost_mode : MonoBehaviour
     PlayerCharacter playerCharacter;
     internal Vector2 boost_pos;
     public float boost_force;
-    bool on_boost;
+    public bool on_boost;
     private int boost_direction;
     Rigidbody2D rgd2D;
     public float booster_cancel_delay;
@@ -33,6 +33,7 @@ public class player_room_boost_mode : MonoBehaviour
     }
     public void un_boost()
     {
+        this.gameObject.layer = 6;
         playerCharacter.col_on_room_boost = false;
         playerCharacter.can_dash = true;
         playerCharacter.can_move = true;
@@ -83,6 +84,7 @@ public class player_room_boost_mode : MonoBehaviour
     void booster_mode(int i)
     {
         Debug.Log("ºÎ½ºÆ®");
+        
             switch (i)
             {
                 case 0:

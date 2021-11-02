@@ -59,6 +59,7 @@ public class room_boost : MonoBehaviour
             Debug.Log("붙잡기");
             grab_object = collision.gameObject;
             Timer = Timer_max;
+            collision.gameObject.layer = 10;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -67,7 +68,10 @@ public class room_boost : MonoBehaviour
         {
             Debug.Log("해제");
             collision.gameObject.GetComponent<PlayerCharacter>().col_on_room_boost = false;
+            
             grab_object = null;
+            active_timer = active_timer_max;
+            active = false;
             Timer = 0;
         }
     }
