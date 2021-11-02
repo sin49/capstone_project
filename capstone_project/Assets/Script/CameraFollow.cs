@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
     public float speed;
 
-    public Vector2 center;
+    static public Vector2 center;
     public Vector2 size;
 
     float height;
