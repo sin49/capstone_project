@@ -121,7 +121,6 @@ public class room : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             on_player = true;
-            CameraFollow.center = new Vector2(this.transform.position.x, this.transform.position.y);
         }
         if (collision.CompareTag("Enemy"))
         {
