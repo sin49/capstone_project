@@ -29,12 +29,20 @@ public class portal : MonoBehaviour
                 case 0:
                     door_.link.transform.parent.gameObject.GetComponent<room>().on_player=true;
                     door_.link.transform.parent.gameObject.SetActive(true);
+                    if (player.GetComponent<player_room_boost_mode>().on_boost)
+                    {
+                        player.GetComponent<player_room_boost_mode>().un_boost();
+                    }
                     player.transform.position = new Vector2(door_.link.GetComponent<door>().portal_exit.position.x, player.transform.position.y);
                    // door_.transform.parent.gameObject.GetComponent<room>().on_player = false;
                     break;
                 case 1:
                     door_.link.transform.parent.gameObject.GetComponent<room>().on_player = true;
                     door_.link.transform.parent.gameObject.SetActive(true);
+                    if (player.GetComponent<player_room_boost_mode>().on_boost)
+                    {
+                        player.GetComponent<player_room_boost_mode>().un_boost();
+                    }
                     player.transform.position =new Vector2 (door_.link.GetComponent<door>().portal_exit.position.x, player.transform.position.y);
                    // door_.transform.parent.gameObject.GetComponent<room>().on_player = false;
                     break;
@@ -44,6 +52,10 @@ public class portal : MonoBehaviour
                 case 2:
                     door_.link.transform.parent.gameObject.GetComponent<room>().on_player = true;
                     door_.link.transform.parent.gameObject.SetActive(true);
+                    if (player.GetComponent<player_room_boost_mode>().on_boost)
+                    {
+                        player.GetComponent<player_room_boost_mode>().un_boost();
+                    }
                     player.transform.position = new Vector2(player.transform.position.x, door_.link.GetComponent<door>().portal_exit.position.y);
 
                     rgd2D = player.GetComponent<Rigidbody2D>();
@@ -54,6 +66,10 @@ public class portal : MonoBehaviour
                 case 3:
                     door_.link.transform.parent.gameObject.GetComponent<room>().on_player = true;
                     door_.link.transform.parent.gameObject.SetActive(true);
+                    if (player.GetComponent<player_room_boost_mode>().on_boost)
+                    {
+                        player.GetComponent<player_room_boost_mode>().un_boost();
+                    }
                     player.transform.position = new Vector2(player.transform.position.x, door_.link.GetComponent<door>().portal_exit.position.y);
 
                     rgd2D = player.GetComponent<Rigidbody2D>();

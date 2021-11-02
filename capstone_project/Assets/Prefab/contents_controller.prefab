@@ -46,6 +46,14 @@ MonoBehaviour:
   spawn_contents:
   - {fileID: 6248427065063829459, guid: 42afdfbfdc861d64787cf9e3b88fa306, type: 3}
   normal_contents:
-  - {fileID: 8419010417004100205, guid: e3793561249457f46a27b6c6df02cee4, type: 3}
+  - {fileID: 6748207886068026193, guid: 864d53858a3c21f48b30ff23039dd2e7, type: 3}
+  - {fileID: 2433962229734019803, guid: 2f9843945b53c7349aebeb1824a51117, type: 3}
+  - {fileID: 4037439600918499501, guid: 87b8c6ad128af934b8bd2eb31ac9e716, type: 3}
+  - {fileID: 7929105097737882929, guid: 4c94a22d7a5782643a28667f27ad29e7, type: 3}
+  - {fileID: 6301313645884727264, guid: 7d32434ca91b24c4fbffe4ee80c343f1, type: 3}
+  - {fileID: 632119952550159460, guid: 666613ca8a8357944b533b2e5ce2737f, type: 3}
+  - {fileID: 2152525628527693513, guid: 17e740bbc4cba8e43bdd517d8af8e0d6, type: 3}
+  - {fileID: 7672250122804293565, guid: a0ddb97d6455b524c9d341bc83431062, type: 3}
+  - {fileID: 852067877397855851, guid: 04a797e605711d949a610c82ead66c2c, type: 3}
   this_room: {fileID: 0}
   check_room_contents: 0

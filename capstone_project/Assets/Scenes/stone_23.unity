@@ -809,7 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2699fbae42ad240bf733eb83e8b522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room_create_number: 5
+  room_create_number: 10
   room_database:
   - {fileID: 7432658863124207373, guid: 3c989fd03026c074d81323dd1e1ef641, type: 3}
   room: []

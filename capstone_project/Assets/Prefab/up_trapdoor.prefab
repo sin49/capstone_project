@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door_: {fileID: 1740684985960823610}
-  force: 0
+  force: 15
 --- !u!1 &3408623371363246631
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   portal_exit: {fileID: 5489036049095751355}
   direct: 2
   link: {fileID: 0}
+  col_Player: 0
 --- !u!1 &4460387422577362330
 GameObject:
   m_ObjectHideFlags: 0
