@@ -528,10 +528,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8449dfe84c9e144692ceb7729aeeabf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  speed: 5
-  center: {x: 0, y: 0}
-  size: {x: 999, y: 999}
+  target: {fileID: 918296370}
+  speed: 10
+  size: {x: 1000, y: 1000}
 --- !u!1 &918296367
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,10 +660,10 @@ RectTransform:
   m_Father: {fileID: 29617907}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -661, y: -430}
-  m_SizeDelta: {x: -1785.6854, y: -954.5818}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 299, y: -120}
+  m_SizeDelta: {x: 134.31458, y: 125.41821}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1318296707
 MonoBehaviour:
@@ -738,10 +737,10 @@ RectTransform:
   m_Father: {fileID: 29617907}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -854.99994, y: -429.99997}
-  m_SizeDelta: {x: -1785.6854, y: -954.5818}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 105.00006, y: -120}
+  m_SizeDelta: {x: 134.31458, y: 125.41821}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1359969714
 MonoBehaviour:
@@ -810,7 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2699fbae42ad240bf733eb83e8b522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room_create_number: 3
+  room_create_number: 5
   room_database:
   - {fileID: 7432658863124207373, guid: 3c989fd03026c074d81323dd1e1ef641, type: 3}
   room: []

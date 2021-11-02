@@ -25,6 +25,7 @@ public class room : MonoBehaviour
     {
         if (on_player)
         {
+            
             //link_check_door();
             if (room_element == 2)//일반 전투 방
             {
@@ -40,6 +41,10 @@ public class room : MonoBehaviour
                 check_door();
             }*/
         }
+        else
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
    void battle_mode()
@@ -47,12 +52,16 @@ public class room : MonoBehaviour
         
         if (collision_door_to_player_check())
         {
-            close_door();
+            
             //적생성한번만
             if (enemy.Count == 0)
             {
                 open_door();
                 room_cleared=true;
+            }
+            else
+            {
+                close_door();
             }
         }
     }
@@ -120,11 +129,12 @@ public class room : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            on_player = true;
+            //on_player = true;
+            //CameraFollow.center = new Vector2(this.transform.position.x, this.transform.position.y);
         }
         if (collision.CompareTag("Enemy"))
         {
-            enemy.Add(collision.gameObject);
+            //enemy.Add(collision.gameObject);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

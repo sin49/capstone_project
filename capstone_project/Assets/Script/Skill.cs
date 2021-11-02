@@ -14,13 +14,12 @@ public class Skill : MonoBehaviour
 
     void Start()
     {
-        Skillimage1 = GameObject.Find("Skill_Image1").gameObject.GetComponent<Image>();
-        Skillimage2 = GameObject.Find("Skill_Image2").gameObject.GetComponent<Image>();
-        CoolTiem1 = GameObject.Find("Skill_CoolTime1").gameObject.GetComponent<Image>();
-        CoolTiem2 = GameObject.Find("Skill_CoolTime2").gameObject.GetComponent<Image>();
+        Skillimage1= GameObject.Find("Skill_Image1").GetComponent<Image>();
+        Skillimage2 = GameObject.Find("Skill_Image2").GetComponent<Image>();
+        CoolTiem1 = GameObject.Find("Skill_CoolTime1").GetComponent<Image>();
+        CoolTiem2 = GameObject.Find("Skill_CoolTime1").GetComponent<Image>();
         Skill_Slot.Add(new SkillClass("테스트1", 1.0f));
         Skill_Slot.Add(new SkillClass("테스트2", 1.0f));
-        
     }
 
     // Update is called once per frame

@@ -23,25 +23,40 @@ public class room_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (room.Count == room_create_number&&!make_wall_check)
+        if (!map_making_complete)
         {
-            close_no_link_door(room);
-            make_wall_check = true;
-            
-        }
-        if (make_wall_check)
-        {
-            make_map_element();
-        }
-        if (make_wall_check&&make_map_elemental)
-        {
-            map_making_complete = true;
+            if (room.Count == room_create_number && !make_wall_check)
+            {
+                close_no_link_door(room);
+                make_wall_check = true;
+
+            }
+            if (make_wall_check)
+            {
+                make_map_element();
+            }
+            if (make_wall_check && make_map_elemental)
+            {
+                map_making_complete = true;
+            }
         }
     }
    
    public void make_map_element()
     {
-        room[0].GetComponent<room>().room_element = 1;
+
+        for (int i = 0; i < room.Count; i++)
+        {
+            if (i == 0)
+            {
+                room[i].GetComponent<room>().room_element = 1;
+                room[i].GetComponent<room>().on_player = true;
+            }
+            else
+            {
+                room[i].GetComponent<room>().room_element = 2;
+            }
+        }
         map_making_complete = true;
     }
     

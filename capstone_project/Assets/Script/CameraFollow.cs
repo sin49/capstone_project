@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
     public float speed;
 
-    public Vector2 center;
+    static public Vector2 center;
     public Vector2 size;
 
     float height;
@@ -23,9 +23,9 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (GameObject.FindGameObjectWithTag("Player"))
+        if (GameObject.FindGameObjectWithTag("room"))
         {
-            target = GameObject.FindGameObjectWithTag("Player").transform;
+            target = GameObject.FindGameObjectWithTag("room").transform;
         }
         if (target != null)
         {
@@ -48,3 +48,8 @@ public class CameraFollow : MonoBehaviour
         Gizmos.DrawWireCube(center,size);
     }
 }
+/*
+ * 방 가운데 
+ *방 크기가 다를 경우에
+ * 플레이어캐릭터 카메라기중간
+ * */

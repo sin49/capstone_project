@@ -45,5 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawn_contents:
   - {fileID: 6248427065063829459, guid: 42afdfbfdc861d64787cf9e3b88fa306, type: 3}
+  normal_contents:
+  - {fileID: 8419010417004100205, guid: e3793561249457f46a27b6c6df02cee4, type: 3}
   this_room: {fileID: 0}
   check_room_contents: 0
