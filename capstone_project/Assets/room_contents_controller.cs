@@ -9,7 +9,7 @@ public class room_contents_controller : MonoBehaviour
     public room this_room;
     public bool check_room_contents;
 
-    <
+    
     // Start is called before the first frame update
     void Start()
     {

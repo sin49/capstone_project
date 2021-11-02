@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Item
   - room
+  - TreasureBox
   layers:
   - Default
   - TransparentFX

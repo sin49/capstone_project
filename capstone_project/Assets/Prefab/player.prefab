@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369060a36d5041444a288614c09a9a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 8110904921393660992, guid: d810a36def7f183468afb97b9ce0e679, type: 3}
 --- !u!1 &3094959740082032628
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,3 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910736cf5ad4a524b9d255584e26950b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boost_force: 0
+  on_boost: 0
+  booster_cancel_delay: 0
+  booster_cancel_delay_max: 0
