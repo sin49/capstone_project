@@ -9,27 +9,49 @@ public class room : MonoBehaviour
     public door[] door;
     public int room_element;
     public bool room_cleared;//방을 가봤는지
+
+    [Header("normal_contents")]
     public List<GameObject> enemy = new List<GameObject>();//적이 확인되면 집어 넣기
-    public int count;
-    
+    public bool delay_check;
+    public float delaytime=1.0f;
+    public float delaytimer;
+    int count;
+
     public bool on_player;
+    private bool open_check;
+
     void Start()
     {
-        
+        delaytimer = delaytime;
+        open_check = true;
     }
     private void Awake()
     {
-        //random_door();
+       
     }
     void Update()
     {
         if (on_player)
         {
             
-            //link_check_door();
+            
             if (room_element == 2)//일반 전투 방
             {
-                battle_mode();
+                if (!room_cleared)
+                {
+                    if (collision_door_to_player_check())
+                    {
+                        battle_mode();
+                        if (open_check)
+                            close_door();
+                    }
+                }
+                else
+                {
+                    if (!open_check)
+                        open_door();
+                }
+                
             }
             else
             {
@@ -50,20 +72,22 @@ public class room : MonoBehaviour
    void battle_mode()
     {
         
-        if (collision_door_to_player_check())
-        {
-            
-            //적생성한번만
-            if (enemy.Count == 0)
+       
+            if (delay_check)
             {
-                open_door();
-                room_cleared=true;
+                //적생성한번만
+                if (enemy.Count == 0)
+                {
+                    room_cleared = true;
+                }
             }
             else
             {
-                close_door();
+                delaytimer -= Time.deltaTime;
+                if (delaytimer <= 0)
+                    delay_check = true;
             }
-        }
+        
     }
     
     bool collision_door_to_player_check()
@@ -91,7 +115,9 @@ public class room : MonoBehaviour
             {
                 door[i].open_door();
             }
+            
         }
+        open_check = true;
     }
     public void close_door()
     {
@@ -102,6 +128,7 @@ public class room : MonoBehaviour
                 door[i].close_door();
             }
         }
+        open_check = false;
     }
     public void random_door()
     {
@@ -120,9 +147,15 @@ public class room : MonoBehaviour
         {
             if (door[i].link == null)
             {
-                Debug.Log("벽생성");
                 door[i].active_wall();
             }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            enemy.Add(other.gameObject);
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -142,6 +175,10 @@ public class room : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             on_player = false;
+        }
+        if (collision.CompareTag("Enemy"))
+        {
+            enemy.Remove(enemy[count - 1]);
         }
     }
 }

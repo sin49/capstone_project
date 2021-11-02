@@ -115,7 +115,7 @@ public class room_controller : MonoBehaviour
                             if (a.transform.position == room_pos[p])
                             {
                                 room.Remove(a);
-                                Debug.Log("¹æÀÌ °ãÃÄ¼­ ÆÄ±«µÊ");
+                                //Debug.Log("¹æÀÌ °ãÃÄ¼­ ÆÄ±«µÊ");
                                 Destroy(a);
                                 break;
                             }
@@ -133,7 +133,7 @@ public class room_controller : MonoBehaviour
                             if (a.transform.position == room_pos[p])
                             {
                                 room.Remove(a);
-                                Debug.Log("¹æÀÌ °ãÃÄ¼­ ÆÄ±«µÊ");
+                                //Debug.Log("¹æÀÌ °ãÃÄ¼­ ÆÄ±«µÊ");
                                 Destroy(a);
                                 break;
                             }
@@ -151,7 +151,7 @@ public class room_controller : MonoBehaviour
                             if (a.transform.position == room_pos[p])
                             {
                                 room.Remove(a);
-                                Debug.Log("¹æÀÌ °ãÃÄ¼­ ÆÄ±«µÊ");
+                               // Debug.Log("¹æÀÌ °ãÃÄ¼­ ÆÄ±«µÊ");
                                 Destroy(a);
                                 break;
                             }
@@ -169,7 +169,7 @@ public class room_controller : MonoBehaviour
                             if (a.transform.position == room_pos[p])
                             {
                                 room.Remove(a);
-                                Debug.Log("¹æÀÌ °ãÃÄ¼­ ÆÄ±«µÊ");
+                               // Debug.Log("¹æÀÌ °ãÃÄ¼­ ÆÄ±«µÊ");
                                 Destroy(a);
                                 break;
                             }
@@ -212,7 +212,7 @@ public class room_controller : MonoBehaviour
             {
             if (r_count >= room.Count)
             {
-                r_count = 0;
+                r_count = room.Count-1;
             }
             GameObject r2 = make_room_V2(room[r_count]);//¹æ »ý¼ºÈÄ ÀÌ¾îºÙÀÌ±â
             r_count++;
@@ -228,7 +228,6 @@ public class room_controller : MonoBehaviour
     }
     void close_no_link_door(List<GameObject> d)
     {
-        Debug.Log(d.Count);
         for(int i = 0; i < d.Count; i++)
         {
             d[i].GetComponent<room>().make_wall();

@@ -47,16 +47,24 @@ public class room_boost : MonoBehaviour
         }
         if (active == false) {
             active_timer -= Time.deltaTime;
+            Color color = this.GetComponent<SpriteRenderer>().color;
+            color.a = 0.5f;
+            this.GetComponent<SpriteRenderer>().color = color;
             if (active_timer < 0)
                 active = true;
-        } 
+        }
+        else
+        {
+            Color color = this.GetComponent<SpriteRenderer>().color;
+            color.a = 1.0f;
+            this.GetComponent<SpriteRenderer>().color = color;
+        }
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")&&active==true)
         {
-            Debug.Log("붙잡기");
             grab_object = collision.gameObject;
             Timer = Timer_max;
             collision.gameObject.layer = 10;
@@ -66,7 +74,6 @@ public class room_boost : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("해제");
             collision.gameObject.GetComponent<PlayerCharacter>().col_on_room_boost = false;
             
             grab_object = null;

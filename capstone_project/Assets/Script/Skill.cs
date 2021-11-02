@@ -25,9 +25,9 @@ public class Skill : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        skill_system();
+        /*skill_system();
         Skillimage1.sprite = Skill_Slot[0].skill_sprite;
-        Skillimage2.sprite = Skill_Slot[1].skill_sprite;    
+        Skillimage2.sprite = Skill_Slot[1].skill_sprite;  */  
     }
     void skill_system()
     {

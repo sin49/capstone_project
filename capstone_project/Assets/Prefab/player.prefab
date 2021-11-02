@@ -421,6 +421,11 @@ MonoBehaviour:
   hitted_timer: 0
   col_pos: {x: 0, y: 0}
   col_on_room_boost: 0
+  on_platform: 0
+  Downbuffertime: 0.5
+  Downbuffertimer: 0
+  layer_change_time: 0.2
+  layer_change_timer: 0
 --- !u!114 &43143051824998000
 MonoBehaviour:
   m_ObjectHideFlags: 0

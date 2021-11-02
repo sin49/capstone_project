@@ -699,4 +699,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door_: {fileID: 8312514897831787830}
-  force: 15
+  force: 20

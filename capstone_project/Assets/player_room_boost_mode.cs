@@ -43,7 +43,6 @@ public class player_room_boost_mode : MonoBehaviour
     }
     void booster_ready_mode()
     {
-        Debug.Log("부스터 준비 중");
         playerCharacter.can_dash = false;
         playerCharacter.can_move = false;
         rgd2D.gravityScale = 0;
@@ -83,7 +82,6 @@ public class player_room_boost_mode : MonoBehaviour
     }
     void booster_mode(int i)
     {
-        Debug.Log("부스트");
         
             switch (i)
             {
@@ -95,7 +93,6 @@ public class player_room_boost_mode : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down"))
                     {
-                        Debug.Log("부스터 해제");
                         un_boost();
                     }
                 }
@@ -109,7 +106,6 @@ public class player_room_boost_mode : MonoBehaviour
                     if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down"))
                     {
                         un_boost();
-                        Debug.Log("부스터 해제");
                     }
                 }
                 break;
@@ -122,7 +118,6 @@ public class player_room_boost_mode : MonoBehaviour
                     if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down"))
                     {
                         un_boost();
-                        Debug.Log("부스터 해제");
                     }
                 }
                 break;
@@ -132,10 +127,9 @@ public class player_room_boost_mode : MonoBehaviour
                 booster_cancel_delay -= Time.deltaTime;
                 if (booster_cancel_delay <= 0)
                 {
-                    if (Input.GetButtonDown("left") || Input.GetButtonDown("right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("down"))
+                    if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down"))
                     {
                         un_boost();
-                        Debug.Log("부스터 해제");
                     }
                 }
                 break;

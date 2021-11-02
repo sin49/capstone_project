@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerCharacter : GameCharacter
 {
     public Rigidbody2D rgd;
-    float jump_timer_limit = 0.1f;
     public float jump_timer;
     public int jump_count = 1;
     int max_jump_count = 1;
@@ -63,6 +62,13 @@ public class PlayerCharacter : GameCharacter
     private bool on_hitted;
     public Vector2 col_pos;
     public bool col_on_room_boost;
+
+    [Header("platform")]
+    public bool on_platform;
+    public float Downbuffertime = 0.5f;
+    public float Downbuffertimer;
+    public float layer_change_time=0.2f;
+    public float layer_change_timer;
 
     void Start()
     {
@@ -228,6 +234,28 @@ public class PlayerCharacter : GameCharacter
                 move_vector = new Vector3(direction * move_speed * Time.deltaTime * -1, 0, 0);
                 transform.Translate(move_vector);
             }
+            if (Input.GetButtonDown("Down")&&on_platform&&Downbuffertimer<=0)
+            {
+                Downbuffertimer = Downbuffertime;
+            }
+            if (Downbuffertimer > 0)
+            {
+                Downbuffertimer -= Time.deltaTime;
+                if(Input.GetButtonDown("Down") && on_platform && Downbuffertimer >= 0)
+                {
+                    layer_change_timer = layer_change_time;
+                    this.gameObject.layer = 10;
+                }
+            }
+            if (layer_change_timer > 0)
+            {
+                layer_change_timer -= Time.deltaTime;
+
+            }
+            else
+            {
+                this.gameObject.layer = 6;
+            }
         }
         if (!on_dash)
         {
@@ -348,14 +376,17 @@ public class PlayerCharacter : GameCharacter
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))//«√∑ß∆˚ø° ¥Í¿∏∏È ¡°«¡»Ωºˆ »∏∫π?
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             if (!untouchable_state)
             {
-                col_pos = collision.transform.position;
-                player_hiited_force(col_pos);
-                player_hitted(collision.gameObject.GetComponentInParent<GameCharacter>().Attack_point);
-                Debug.Log("««∞›µ ");
+                if (collision.gameObject.transform.parent.GetComponent<Unit>().e_active)
+                {
+                    col_pos = collision.transform.position;
+                    player_hiited_force(col_pos);
+                    player_hitted(collision.gameObject.GetComponentInParent<GameCharacter>().Attack_point);
+                    Debug.Log("««∞›µ ");
+                }
             }
         }
     }
@@ -376,18 +407,48 @@ public class PlayerCharacter : GameCharacter
     {
         if (other.gameObject.CompareTag("Platform"))//«√∑ß∆˚ø° ¥Í¿∏∏È ¡°«¡»Ωºˆ »∏∫π?
         {
-            if (!onground&&(this.transform.position-other.gameObject.transform.position).y>0)
+            if (other.gameObject.layer != 11)
             {
-                Debug.Log("¡°«¡»∏∫π");
-                jump_count = max_jump_count;
-                dash_recover_check = true;
-                onground = true;
+                if (!onground)
+                {
+                    //Debug.Log("¡°«¡»∏∫π");
+                    jump_count = max_jump_count;
+                    dash_recover_check = true;
+                    onground = true;
+                }
+            }
+            else
+            {
+
+                if (!onground)
+                {
+                    if (rgd.velocity.y == 0)
+                    {
+                        // Debug.Log("¡°«¡»∏∫π");
+                        jump_count = max_jump_count;
+                        dash_recover_check = true;
+                        onground = true;
+                    }
+                }
+                else
+                {
+                    on_platform = true;
+                }
             }
             if (this.GetComponent<player_room_boost_mode>().on_boost)
             {
                 this.GetComponent<player_room_boost_mode>().un_boost();
             }
-
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            if (collision.gameObject.layer == 11)
+            {
+                on_platform = false;
+            }
         }
     }
 }

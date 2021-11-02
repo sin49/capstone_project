@@ -20,7 +20,6 @@ public class portal : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("충돌체크");
             GameObject player = collision.gameObject;
             Rigidbody2D rgd2D;
             //player.SetActive(false);
