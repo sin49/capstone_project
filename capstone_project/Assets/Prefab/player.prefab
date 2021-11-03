@@ -101,7 +101,6 @@ GameObject:
   m_Component:
   - component: {fileID: 271037381415588766}
   - component: {fileID: 5687577419330463105}
-  - component: {fileID: 5456014097952088353}
   m_Layer: 6
   m_Name: Gun
   m_TagString: Untagged
@@ -175,22 +174,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5456014097952088353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3094959740082032628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa68b0e9a958e424681cd8fd03687f15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damge: 111
-  Speed: 1
-  Delay: 1
-  volley: 1
 --- !u!1 &4031178011018046207
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,59 +356,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   death_check: 0
   Health_point: 99
+  max_hp: 0
   Attack_point: 3
   Defense_point: 0
-  can_attacked: 0
-  can_ataack: 0
-  move_speed: 10
-  jump_force: 3
-  untouchable_state: 0
-  untouchable_timer: 0
-  untouchable_time: 1
   direction: 0
-  rgd: {fileID: 0}
-  jump_timer: 0
-  jump_count: 1
-  horiz: {x: 0, y: 0}
-  jump_vec: {x: 0, y: 0}
-  onground: 0
-  ongrounded_jump_check: 0
-  move_vector: {x: 0, y: 0, z: 0}
-  minimum_jump_check: 0
-  jump_check: 0
-  minimum_jump_vec3: {x: 0, y: 12}
-  minimum_jump_height: 3
-  jump_height: 0
-  hangtime: 0.2
-  hangTimer: 0
-  jumpbuffertime: 0.2
-  jumpbuffertimer: 0
-  dash_force: 1000
-  dash_count: 1
-  max_dash_count: 1
-  after_dash_timer: 0
-  after_dash_timer_check: 0.05
-  dash_recover_check: 0
-  dash_recover_timer: 0
-  dash_recover_timer_check: 0.1
-  can_dash: 1
-  dash_direction: {x: 0, y: 0}
-  dash_time: 0.2
-  dash_timer: 0
-  can_move: 0
-  on_dash: 0
-  jump_start_pos: {x: 0, y: 0}
-  jump_height_pos: {x: 0, y: 0}
-  hitted_force: {x: -5, y: 4}
-  hitted_time: 0.5
-  hitted_timer: 0
-  col_pos: {x: 0, y: 0}
-  col_on_room_boost: 0
-  on_platform: 0
-  Downbuffertime: 0.5
-  Downbuffertimer: 0
-  layer_change_time: 0.2
-  layer_change_timer: 0
 --- !u!114 &43143051824998000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc61f8fe42fd00f489d128f50718101e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p_chr: {fileID: 2364104771075719842}
   prefab: {fileID: 2060391524227005808, guid: 2489fbd53b573cc47bab4335a0306416, type: 3}
   Gun: {fileID: 3094959740082032628}
   Shoot: {fileID: 651623870143144312}

@@ -5,16 +5,14 @@ using UnityEngine;
 public class GameCharacter : MonoBehaviour
 {
     public bool death_check;//사망 체크
-    public int Health_point;//채력
-    public int Attack_point;//공격력
-    public int Defense_point;//방어력 최대수치 100
-    public bool can_attacked;//1=공격받을수있다 0=공격받을수없다
-    public bool can_ataack;//1=공격할수있다 0=공격할수없다
-    public float move_speed=1.0f;//이동속도
-    public float jump_force=30.0f;//점프높이
-    public bool untouchable_state;
-    public float untouchable_timer = 0;
-    public float untouchable_time = 0.5f;
+    public int Health_point;
+    public int max_hp;
+    public int Attack_point;
+    public int Defense_point;
+    bool can_attack;//1=공격할수있다 0=공격할수없다
+    protected float move_speed=1.0f;//이동속도
+    protected bool untouchable_state;
+    protected float untouchable_timer = 0;
     public int direction=1;//캐릭터의 방향 1, -1 만 허용
     
     void Start()
@@ -28,10 +26,8 @@ public class GameCharacter : MonoBehaviour
     {
         if (Defense_point > 100)
             Defense_point = 100;
-        /*if (Health_point <= 0)
-        {
-            character_death();
-        }*/
+        if (Health_point >= max_hp)
+            Health_point = max_hp;
     }
     protected void direction_change()//방향바꾸기 좌 우
     {

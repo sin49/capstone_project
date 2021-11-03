@@ -10,6 +10,11 @@ public class Gamemanager : MonoBehaviour
     public room_controller room_controller;
     public GameObject Player_spawn;
     public bool spawn_check;
+    
+    private void Awake()
+    {
+     
+    }
     // Start is called before the first frame update
     void Start()
     {

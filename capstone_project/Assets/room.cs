@@ -178,7 +178,7 @@ public class room : MonoBehaviour
         }
         if (collision.CompareTag("Enemy"))
         {
-            enemy.Remove(enemy[count - 1]);
+            enemy.Remove(collision.gameObject);
         }
     }
 }

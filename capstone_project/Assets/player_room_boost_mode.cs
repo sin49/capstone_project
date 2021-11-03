@@ -22,7 +22,7 @@ public class player_room_boost_mode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerCharacter.col_on_room_boost)
+        if (playerCharacter.get_col_boost())
         {
             booster_ready_mode();
         }
@@ -34,17 +34,17 @@ public class player_room_boost_mode : MonoBehaviour
     public void un_boost()
     {
         this.gameObject.layer = 6;
-        playerCharacter.col_on_room_boost = false;
-        playerCharacter.can_dash = true;
-        playerCharacter.can_move = true;
+        playerCharacter.set_col_boost(false);
+        playerCharacter.set_can_dash(true);
+        playerCharacter.set_can_move(true);
         rgd2D.gravityScale = 1;
         on_boost = false;
         
     }
     void booster_ready_mode()
     {
-        playerCharacter.can_dash = false;
-        playerCharacter.can_move = false;
+        playerCharacter.set_can_dash(false);
+        playerCharacter.set_can_move(false);
         rgd2D.gravityScale = 0;
         if (Input.GetButtonDown("Left"))
         {
@@ -86,7 +86,7 @@ public class player_room_boost_mode : MonoBehaviour
             switch (i)
             {
                 case 0:
-                    playerCharacter.col_on_room_boost = false;
+                    playerCharacter.set_col_boost(false);
                     rgd2D.velocity = new Vector2(-boost_force, 0);
                 booster_cancel_delay -= Time.deltaTime;
                 if (booster_cancel_delay <= 0)
@@ -98,7 +98,7 @@ public class player_room_boost_mode : MonoBehaviour
                 }
                     break;
                 case 1:
-                playerCharacter.col_on_room_boost = false;
+                playerCharacter.set_col_boost(false);
                 rgd2D.velocity = new Vector2(boost_force, 0);
                 booster_cancel_delay -= Time.deltaTime;
                 if (booster_cancel_delay <= 0)
@@ -110,7 +110,7 @@ public class player_room_boost_mode : MonoBehaviour
                 }
                 break;
                 case 2:
-                playerCharacter.col_on_room_boost = false;
+                playerCharacter.set_col_boost(false);
                 rgd2D.velocity = new Vector2(0,boost_force);
                 booster_cancel_delay -= Time.deltaTime;
                 if (booster_cancel_delay <= 0)
@@ -122,7 +122,7 @@ public class player_room_boost_mode : MonoBehaviour
                 }
                 break;
                 case 3:
-                playerCharacter.col_on_room_boost = false;
+                playerCharacter.set_col_boost(false);
                 rgd2D.velocity = new Vector2(0,-boost_force);
                 booster_cancel_delay -= Time.deltaTime;
                 if (booster_cancel_delay <= 0)

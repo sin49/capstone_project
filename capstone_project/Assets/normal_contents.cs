@@ -5,12 +5,11 @@ using UnityEngine;
 public class normal_contents : MonoBehaviour
 {
     public List<GameObject> enemy = new List<GameObject>();
-    float C_alpha=0.2f;
 
     // Start is called before the first frame update
     void Start()
     {
-        C_alpha = 0.2f;
+       
     }
 
     // Update is called once per frame

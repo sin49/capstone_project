@@ -4,84 +4,93 @@ using UnityEngine;
 
 public class PlayerCharacter : GameCharacter
 {
-    public Rigidbody2D rgd;
-    public float jump_timer;
-    public int jump_count = 1;
-    int max_jump_count = 1;
-    public Vector2 horiz;
-    public Vector2 jump_vec;
-    public bool onground;//땅에 닿았는지
+    Rigidbody2D rgd;
+    int jump_count = 1;
+    bool onground;//땅에 닿았는지
 
-    public bool ongrounded_jump_check;
 
     
 
-    public Vector3 move_vector;
+    Vector3 move_vector;
 
     [Header("jump")]
-    public bool minimum_jump_check;
-    public bool jump_check;
-    public Vector2 minimum_jump_vec3;
-    public float minimum_jump_height;
-    public float jump_height;
-
-    public float hangtime = 0.2f;
-    public float hangTimer;
-    public float jumpbuffertime = 0.5f;
-    public float jumpbuffertimer;
+     float hangtime = 0.2f;
+    float hangTimer;
+    float jumpbuffertime = 0.5f;
+    float jumpbuffertimer;
 
 
     
 
     [Header("dash input")]
-    public float dash_force;
-    public int dash_count;
-    public int max_dash_count = 1;
-    public float after_dash_timer;
-    public float after_dash_timer_check = 0.05f;
-    public bool dash_recover_check;
-    public float dash_recover_timer;
-    public float dash_recover_timer_check = 0.1f;
-    public bool can_dash = true;
-    public Vector2 dash_direction;
-    public float dash_time = 1f;
-    public float dash_timer = 0;
-    public bool can_move;
-    public bool on_dash;
+    int dash_count;
+    float after_dash_timer;
+    float after_dash_timer_check = 0.05f;
+    bool dash_recover_check;
+    float dash_recover_timer;
+    float dash_recover_timer_check = 0.1f;
+    bool can_dash = true;
+     Vector2 dash_direction;
+    float dash_time = 1f;
+   float dash_timer = 0;
+    bool can_move;
+    bool on_dash;
 
-    Attack p_atk;
 
-    public Vector2 jump_start_pos;
-    public Vector2 jump_height_pos;
+    
+
     
 
     [Header("hitted  input")]
-    public Vector2 hitted_force;
-    public float hitted_time = 1f;
-    public float hitted_timer = 0;
-    private bool on_hitted;
-    public Vector2 col_pos;
-    public bool col_on_room_boost;
+    Vector2 hitted_force;
+     float hitted_time = 1f;
+    float hitted_timer = 0;
+     bool on_hitted;
+     Vector2 col_pos;
+    bool col_on_room_boost;
 
     [Header("platform")]
-    public bool on_platform;
-    public float Downbuffertime = 0.5f;
-    public float Downbuffertimer;
-    public float layer_change_time=0.2f;
-    public float layer_change_timer;
+    bool on_platform;
+    float Downbuffertime = 0.5f;
+    float Downbuffertimer;
+    float layer_change_time=0.2f;
+    float layer_change_timer;
 
+    
+
+    
+    
     void Start()
     {
         rgd = gameObject.GetComponent<Rigidbody2D>();
-        p_atk = gameObject.GetComponent<Attack>();
-        max_jump_count = 1;
-        jump_count = max_jump_count;
+        jump_count = Player_status.p_status.get_jump_count();
         direction = 1;
-        jump_height = minimum_jump_height;
         can_move = true;
+    }
+    public void set_col_boost(bool a)
+    {
+        col_on_room_boost = a;
+    }
+    public bool get_col_boost()
+    {
+        return col_on_room_boost;
+    }
+    public void set_can_dash(bool a)
+    {
+        can_dash = a;
+    }
+    public void set_can_move(bool a)
+    {
+        can_move = a;
     }
     void FixedUpdate()
     {
+        max_hp = Player_status.p_status.get_max_hp();
+        Health_point = Player_status.p_status.get_hp();
+        Defense_point = Player_status.p_status.get_defense_point();
+
+       //스테이터스의 값 동기화
+        
         if (!death_check)
         {
             character_move();
@@ -101,7 +110,7 @@ public class PlayerCharacter : GameCharacter
                     jumpbuffertimer -= Time.deltaTime;
                 }
             }
-            if (jumpbuffertimer > 0 && jump_count == max_jump_count && hangTimer > 0)
+            if (jumpbuffertimer > 0 && jump_count == Player_status.p_status.get_jump_count() && hangTimer > 0)
             {
                 jumpbuffertimer = 0;
                 minimum_jump();
@@ -162,12 +171,12 @@ public class PlayerCharacter : GameCharacter
     }
     void dash_recover()
     {
-        if (dash_count != max_dash_count)
+        if (dash_count != Player_status.p_status.get_dash_count())
         {
             dash_recover_timer += Time.deltaTime;
             if (dash_recover_timer >= dash_recover_timer_check)
             {
-                dash_count = max_dash_count;
+                dash_count = Player_status.p_status.get_dash_count();
                 dash_recover_timer = 0;
             }
 
@@ -195,7 +204,7 @@ public class PlayerCharacter : GameCharacter
             {
                 dash_direction = Vector2.left * dash_force;
             }*/
-            dash_direction =  Vector2.right*direction * dash_force;
+            dash_direction =  Vector2.right*direction * Player_status.p_status.get_dash_force();
             rgd.AddForce(dash_direction *  Time.deltaTime, ForceMode2D.Impulse);
             dash_count--;
             can_dash = false;
@@ -323,7 +332,7 @@ public class PlayerCharacter : GameCharacter
     {
         jump_count--;
         //rgd.velocity = new Vector2(rgd.velocity.x, minimum_jump_vec3.y);
-        rgd.AddForce(new Vector2(rgd.velocity.x, minimum_jump_vec3.y), ForceMode2D.Impulse);
+        rgd.AddForce(new Vector2(rgd.velocity.x, Player_status.p_status.get_jump_force()), ForceMode2D.Impulse);
     }
     void death()
     {
@@ -339,7 +348,7 @@ public class PlayerCharacter : GameCharacter
     }
     void untouchable()
     {
-        if (untouchable_timer >= untouchable_time)
+        if (untouchable_timer >= Player_status.p_status.get_untouchable_time())
         {
             Debug.Log("무적해제!");
             untouchable_state = false;
@@ -392,15 +401,14 @@ public class PlayerCharacter : GameCharacter
     }
     void OnCollisionStay2D(Collision2D other) // trigger? collision?
     {
-       /* if (other.gameObject.CompareTag("Platform"))//플랫폼에 닿으면 점프횟수 회복?
+        if (other.gameObject.CompareTag("Platform"))
         {
-            if (!onground)
+            if (other.gameObject.layer == 11)
             {
-                jump_count = max_jump_count;
+                on_platform = true;
             }
-            dash_recover_check = true;
-            onground = true;
-        }*/
+           
+        }
         
     }
     void OnCollisionEnter2D(Collision2D other) // trigger? collision?
@@ -412,7 +420,7 @@ public class PlayerCharacter : GameCharacter
                 if (!onground)
                 {
                     //Debug.Log("점프회복");
-                    jump_count = max_jump_count;
+                    jump_count = Player_status.p_status.get_jump_count();
                     dash_recover_check = true;
                     onground = true;
                 }
@@ -425,15 +433,14 @@ public class PlayerCharacter : GameCharacter
                     if (rgd.velocity.y == 0)
                     {
                         // Debug.Log("점프회복");
-                        jump_count = max_jump_count;
+                        jump_count = Player_status.p_status.get_jump_count();
                         dash_recover_check = true;
                         onground = true;
                     }
                 }
-                else
-                {
-                    on_platform = true;
-                }
+                
+                  
+               
             }
             if (this.GetComponent<player_room_boost_mode>().on_boost)
             {
