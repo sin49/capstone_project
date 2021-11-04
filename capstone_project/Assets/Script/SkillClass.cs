@@ -34,7 +34,7 @@ public class SkillClass
 
     public void GetSkillItem(Item item)
     {
-        foreignkey = item.Foreignkey;
+        //foreignkey = item.Foreignkey;
         ChangeSkill();
     }
     public void ChangeSkill()
