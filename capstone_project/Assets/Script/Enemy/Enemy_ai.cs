@@ -10,10 +10,11 @@ public class Enemy_ai : MonoBehaviour
     private Quaternion rotation;
     float attack_timer;
     float attack_time;
+    GameObject Player;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -25,9 +26,11 @@ public class Enemy_ai : MonoBehaviour
     {
         switch (i)
         {
-            case 0://움직이지 않음
+            case 0:
                 break;
             case 1://플레이어 추격(지형지물 무시)
+                dir = this.transform.position - Player.transform.position;
+                this.transform.Translate(dir * 2 * Time.deltaTime);
                 break;
             default:
                 break;

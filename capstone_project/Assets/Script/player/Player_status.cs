@@ -116,7 +116,11 @@ public class Player_status : MonoBehaviour
     public void set_hp(int i)
     {
         HP += i;
-    } 
+    }
+    public void damage_hp(int i)
+    {
+        HP -= i-i*get_defense_point();
+    }
     public float get_untouchable_time()
     {
         return original_untouchable_time + untouchable_time_bonus;

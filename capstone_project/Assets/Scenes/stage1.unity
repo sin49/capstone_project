@@ -531,6 +531,57 @@ MonoBehaviour:
   target: {fileID: 918296370}
   speed: 10
   size: {x: 1000, y: 1000}
+--- !u!1 &834223858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834223860}
+  - component: {fileID: 834223859}
+  m_Layer: 0
+  m_Name: map_system (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &834223859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834223858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2699fbae42ad240bf733eb83e8b522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  room_create_number: 10
+  room_database:
+  - {fileID: 7432658863124207373, guid: 3c989fd03026c074d81323dd1e1ef641, type: 3}
+  room: []
+  room_pos: []
+  make_wall_check: 0
+  map_making_complete: 0
+  make_map_elemental: 0
+--- !u!4 &834223860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834223858}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.4669418, y: -7.6354733, z: -22.026974}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &918296367
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,9 +1031,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1692280609, guid: 0ef1f5d5c1ae6a249a0b11ae5436ba0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6868483544948868684, guid: 0ef1f5d5c1ae6a249a0b11ae5436ba0f, type: 3}
       propertyPath: m_Name
       value: Gamemanager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868483544948868684, guid: 0ef1f5d5c1ae6a249a0b11ae5436ba0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6868483544948868686, guid: 0ef1f5d5c1ae6a249a0b11ae5436ba0f, type: 3}
       propertyPath: m_RootOrder

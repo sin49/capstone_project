@@ -55,7 +55,8 @@ public class ItemCheck : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                GameObject Item_D = Instantiate(prefab, new Vector3(Item.transform.position.x, Item.transform.position.y, Item.transform.position.z), Quaternion.identity);
+                Item.GetComponent<chest>().set_open();
+               /* GameObject Item_D = Instantiate(prefab, new Vector3(Item.transform.position.x, Item.transform.position.y, Item.transform.position.z), Quaternion.identity);
                 int Ran = Random.Range(1, 6);
                 if (1 <= Ran && 3 >= Ran)
                 {
@@ -65,7 +66,7 @@ public class ItemCheck : MonoBehaviour
                 {
                     //Item_D.GetComponent<Item>().ItemType = 2;
                 }
-                Destroy(Item.gameObject);
+                Destroy(Item.gameObject);*/
             }
         }
     }

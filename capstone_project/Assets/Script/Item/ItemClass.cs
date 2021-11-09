@@ -10,6 +10,8 @@ public class ItemClass : MonoBehaviour
     int rarity;
 
     List<Dictionary<string, object>> Data = CSVReader.Read("ItemDB");
+    private bool effecting;
+
     public int get_Itemcode()
     {
         return itemcode;
@@ -33,5 +35,12 @@ public class ItemClass : MonoBehaviour
         item_name = Data[code]["Name"].ToString();
         Image = Resources.Load(Data[code]["Image"].ToString(), typeof(Sprite)) as Sprite;
     }
-    
+    public void set_effecting_on()
+    {
+        effecting = true;
+    }
+    public bool get_effecting()
+    {
+        return effecting;
+    }
 }

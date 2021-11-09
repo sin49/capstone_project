@@ -20,13 +20,13 @@ public class room : MonoBehaviour
     public bool on_player;
     private bool open_check;
 
-    int[] XY = new int[2];
-    public void set_XY(int x, int y)
+   public Vector2 XY;
+    public void set_XY(float x, float y)
     {
-        XY[0] = x;
-        XY[1] = y;
+        XY.x=x;
+        XY.y=y;
     }
-    public int[] get_XY()
+    public Vector2 get_XY()
     {
         return XY;
     }
@@ -75,7 +75,7 @@ public class room : MonoBehaviour
         }
         else
         {
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
         }
     }
 

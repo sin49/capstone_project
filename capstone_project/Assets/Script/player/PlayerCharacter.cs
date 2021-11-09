@@ -35,9 +35,10 @@ public class PlayerCharacter : GameCharacter
    float dash_timer = 0;
     bool can_move;
     bool on_dash;
-
-
-    
+    [SerializeField]
+    float move_buffer;
+    [SerializeField]
+    float move_buffer_timer = 0.2f;
 
     
 
@@ -95,13 +96,19 @@ public class PlayerCharacter : GameCharacter
         
         for(int i = 0; i < get_item.Count; i++)
         {
-            int a = get_item[i].get_Itemcode();
-            Debug.Log(a);
-            ItemEffect0.item0to10.effect(a);
+            if (!get_item[i].get_effecting())
+            {
+                int a = get_item[i].get_Itemcode();
+                Debug.Log(i);
+                ItemEffect0.item0to10.effect(a);
+                get_item[i].set_effecting_on();
+            }
         }
+        
         if (!death_check)
         {
             character_move();
+            
             if (transform.rotation.y > 360)
                 transform.Rotate(0, -360, 0);
             //if(rgd.velocity.y
@@ -239,6 +246,7 @@ public class PlayerCharacter : GameCharacter
                 {
                     direction_change();
                 }
+                //move_buffer = move_buffer_timer;
                 move_vector = new Vector3(direction * move_speed * Time.deltaTime, 0, 0);
                 transform.Translate(move_vector);
             }
@@ -248,6 +256,7 @@ public class PlayerCharacter : GameCharacter
                 {
                     direction_change();
                 }
+                //move_buffer = move_buffer_timer;
                 move_vector = new Vector3(direction * move_speed * Time.deltaTime * -1, 0, 0);
                 transform.Translate(move_vector);
             }
@@ -350,7 +359,7 @@ public class PlayerCharacter : GameCharacter
     void player_hitted(int dmg)
     {
         Debug.Log("데미지 처리!");
-        character_lose_health(dmg);
+        Player_status.p_status.damage_hp(dmg);
         if(!untouchable_state)
             untouchable_state = true;
     }
@@ -397,13 +406,13 @@ public class PlayerCharacter : GameCharacter
         {
             if (!untouchable_state)
             {
-                if (collision.gameObject.transform.parent.GetComponent<Unit>().e_active)
-                {
+                //if (collision.gameObject.transform.parent.GetComponent<Unit>().e_active)
+                //{
                     col_pos = collision.transform.position;
-                    player_hiited_force(col_pos);
+                    //player_hiited_force(col_pos);
                     player_hitted(collision.gameObject.GetComponentInParent<GameCharacter>().Attack_point);
                     Debug.Log("피격됨");
-                }
+                //}
             }
         }
     }

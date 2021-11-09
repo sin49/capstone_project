@@ -5,8 +5,9 @@ using UnityEngine;
 public class room_controller : MonoBehaviour
 {
     public int room_create_number;//방생성갯수
+    int a;
     public GameObject[] room_database;//방
-    List<GameObject> room=new List<GameObject>();
+    public List<GameObject> room = new List<GameObject>();
     public List<Vector2> room_pos = new List<Vector2>();
     private int r_count;
     public bool make_wall_check;
@@ -16,7 +17,7 @@ public class room_controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
         create_room_V2();
         //make_all_link(room);
     }
@@ -42,8 +43,8 @@ public class room_controller : MonoBehaviour
             }
         }
     }
-   
-   public void make_map_element()
+
+    public void make_map_element()
     {
 
         for (int i = 0; i < room.Count; i++)
@@ -52,7 +53,7 @@ public class room_controller : MonoBehaviour
             {
                 room[i].GetComponent<room>().room_element = 1;
                 room[i].GetComponent<room>().on_player = true;
-            }else if (i == room.Count - 1)
+            } else if (i == room.Count - 1)
             {
                 room[i].GetComponent<room>().room_element = 4;
             }
@@ -63,14 +64,14 @@ public class room_controller : MonoBehaviour
         }
         map_making_complete = true;
     }
-    
+
     public GameObject make_room_V2()//아무 방이나 만든다
     {
         int random_number = Random.Range(0, room_database.Length);
         GameObject a = Instantiate(room_database[random_number]);
-        a.GetComponent<room>().set_XY(1, 1);
+        a.GetComponent<room>().set_XY(0,0);
         room.Add(a);
-        room_pos.Add(new Vector2(1,1));
+        room_pos.Add(a.GetComponent<room>().get_XY());
         //a.GetComponent<room>().open_check_door();
         //a.gameObject.transform.position = new Vector3(0, 0, 0);
         return a;
@@ -93,16 +94,17 @@ public class room_controller : MonoBehaviour
     {
         room room_ = r.GetComponent<room>();
         room_.random_door();
-        int[] r_XY = room_.get_XY();
-        List<door> open_door=new List<door>();
-        
-        for(int i=0;i< room_.door.Length; i++)
+        Vector2 r_XY = room_.get_XY();
+        bool destroy=false;
+        List<door> open_door = new List<door>();
+
+        for (int i = 0; i < room_.door.Length; i++)
         {
-            if(room_.door[i].door_active&& room_.door[i].link == null){
+            if (room_.door[i].door_active && room_.door[i].link == null) {
                 open_door.Add(room_.door[i]);
             }
         }//방의 문을 체크해서 문이면서 연결되지 않은 문을 리스트에 담는다
-        for(int i = 0; i < open_door.Count; i++)
+        for (int i = 0; i < open_door.Count; i++)
         {
             if (room.Count < room_create_number)
             {
@@ -115,28 +117,31 @@ public class room_controller : MonoBehaviour
                 {
                     case 0:
 
-                        a.GetComponent<room>().set_XY(r_XY[0]-3, r_XY[1]);
+                        a.GetComponent<room>().set_XY(r_XY[0] - 3, r_XY[1]);
                         b = find_door(a.GetComponent<room>().door, 1);
                         a.gameObject.transform.position = new Vector3(pos1.x - r.GetComponent<room>().room_width, pos1.y, pos1.z);
-                        for(int p = 0; p < room.Count; p++)
+                        for (int p = 0; p < room.Count; p++)
                         {
-                            if (a.GetComponent<room>().get_XY()==room[p].GetComponent<room>().get_XY())
+                            if (a.GetComponent<room>().get_XY() == room[p].GetComponent<room>().get_XY())
                             {
                                 room.Remove(a);
-                                //Debug.Log("방이 겹쳐서 파괴됨");
+                                Debug.Log("방이 겹쳐서 파괴됨" + (r_XY[0] -3) + r_XY[1]);
                                 Destroy(a);
-                                
+                                destroy = true;
                                 break;
                             }
                         }
-                        Vector2 v2 = new Vector2(r_XY[0] - 3, r_XY[1]);
-                        room_pos.Add(v2);
-                            b.link = open_door[i].gameObject;
-                            open_door[i].link = b.gameObject;
-                            break;
-                        
+                        if (!destroy)
+                        {
+                            room_pos.Add(new Vector2(r_XY[0] - 3, r_XY[1]));
+                            
+                        }
+                        b.link = open_door[i].gameObject;
+                        open_door[i].link = b.gameObject;
+                        break;
+
                     case 1:
-                        a.GetComponent<room>().set_XY(r_XY[0] +3, r_XY[1]);
+                        a.GetComponent<room>().set_XY(r_XY[0] + 3, r_XY[1]);
                         b = find_door(a.GetComponent<room>().door, 0);
                         a.gameObject.transform.position = new Vector3(pos1.x + r.GetComponent<room>().room_width, pos1.y, pos1.z);
                         for (int p = 0; p < room_pos.Count; p++)
@@ -144,19 +149,23 @@ public class room_controller : MonoBehaviour
                             if (a.GetComponent<room>().get_XY() == room[p].GetComponent<room>().get_XY())
                             {
                                 room.Remove(a);
-                                //Debug.Log("방이 겹쳐서 파괴됨");
+                                Debug.Log("방이 겹쳐서 파괴됨"+(r_XY[0]+3) + r_XY[1]);
                                 Destroy(a);
+                                destroy = true;
                                 break;
                             }
                         }
-                        
-                        room_pos.Add(new Vector2(r_XY[0] + 3, r_XY[1]));
+                        if (!destroy)
+                        {
+                            room_pos.Add(new Vector2(r_XY[0] + 3, r_XY[1]));
+                            
+                        }
                         b.link = open_door[i].gameObject;
                         open_door[i].link = b.gameObject;
                         break;
 
                     case 2:
-                        a.GetComponent<room>().set_XY(r_XY[0] , r_XY[1]+3);
+                        a.GetComponent<room>().set_XY(r_XY[0], r_XY[1] + 3);
                         b = find_door(a.GetComponent<room>().door, 3);
                         a.gameObject.transform.position = new Vector3(pos1.x, pos1.y + r.GetComponent<room>().room_height, pos1.z);
                         for (int p = 0; p < room_pos.Count; p++)
@@ -164,18 +173,23 @@ public class room_controller : MonoBehaviour
                             if (a.GetComponent<room>().get_XY() == room[p].GetComponent<room>().get_XY())
                             {
                                 room.Remove(a);
-                               // Debug.Log("방이 겹쳐서 파괴됨");
+                                Debug.Log("방이 겹쳐서 파괴됨" + r_XY[0] + (r_XY[1] + 3));
                                 Destroy(a);
+                                destroy = true;
                                 break;
                             }
                         }
-                        room_pos.Add(new Vector2(r_XY[0], r_XY[1]+3));
+                        if (!destroy)
+                        {
+                            room_pos.Add(new Vector2(r_XY[0], r_XY[1] + 3));
+                            
+                        }
                         b.link = open_door[i].gameObject;
                         open_door[i].link = b.gameObject;
                         break;
 
                     case 3:
-                        a.GetComponent<room>().set_XY(r_XY[0] , r_XY[1]-3);
+                        a.GetComponent<room>().set_XY(r_XY[0], r_XY[1] - 3);
                         b = find_door(a.GetComponent<room>().door, 2);
                         a.gameObject.transform.position = new Vector3(pos1.x, pos1.y - r.GetComponent<room>().room_height, pos1.z);
                         for (int p = 0; p < room_pos.Count; p++)
@@ -183,12 +197,17 @@ public class room_controller : MonoBehaviour
                             if (a.GetComponent<room>().get_XY() == room[p].GetComponent<room>().get_XY())
                             {
                                 room.Remove(a);
-                               // Debug.Log("방이 겹쳐서 파괴됨");
+                                Debug.Log("방이 겹쳐서 파괴됨"+ r_XY[0]+ (r_XY[1] - 3));
                                 Destroy(a);
+                                destroy = true;
                                 break;
                             }
                         }
-                        room_pos.Add(new Vector2(r_XY[0] , r_XY[1]-3));
+                        if (!destroy)
+                        {
+                            room_pos.Add(new Vector2(r_XY[0], r_XY[1] - 3));
+                            
+                        }
                         b.link = open_door[i].gameObject;
                         open_door[i].link = b.gameObject;
                         break;
@@ -204,35 +223,40 @@ public class room_controller : MonoBehaviour
         //start가 awake보다 느리다는 점을 이용해서 생성이 다된 후에 다시 방을 만드는 방식으로 재귀한다 가능?
         //start awake보다 재귀 방식을 list에 담긴 방을 순차적으로 불려오는 방식으로 바꾸면 가능하다! 이건 가능
         return null;
-        
+
     }
     public GameObject create_room_V2()//방 하나 생성 후 이어붙이는 방식
     {
         //room[room_count] = make_room_V2();//방 만들고
         GameObject b = make_room_V2();//방 만들고
-
-        
-        if (room.Count < room_create_number)//방다차면 스톱
-            return null;//반환값이 필요하면 채우기
-        else
+        a++;
+        if (room.Count< room_create_number)
+        {
             return create_room_V2(room);//아니면 아어붙이기
+            
+        }
+        else
+        {
+            return null;//반환값이 필요하면 채우기
+
+        }
 
 
     }
     public GameObject create_room_V2(List<GameObject> room)//지금은 사용 금지
     {
-
-            if (room.Count < room_create_number)//통로가 뚫려있으면
+        if (room.Count < room_create_number)//통로가 뚫려있으면
             {
             if (r_count >= room.Count)
             {
                 r_count = room.Count-1;
             }
+            Debug.Log(r_count);
             GameObject r2 = make_room_V2(room[r_count]);//방 생성후 이어붙이기
             r_count++;
             //room[room_count] = make_room_V2(r);
             
-                if (room.Count < room_create_number)//다차면 스톱
+                if (room.Count> room_create_number)//다차면 스톱
                     return null;
                 else
                     create_room_V2(room);//그리고 그방의 통로를 검사함
