@@ -26,14 +26,18 @@ public class player_room_boost_mode : MonoBehaviour
         {
             booster_ready_mode();
         }
-        if (on_boost)
+        else if (on_boost)
         {
             booster_mode(boost_direction);
+        }
+        else
+        {
+            un_boost();
         }
     }
     public void un_boost()
     {
-        this.gameObject.layer = 6;
+        
         playerCharacter.set_col_boost(false);
         playerCharacter.set_can_dash(true);
         playerCharacter.set_can_move(true);
@@ -93,6 +97,7 @@ public class player_room_boost_mode : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down"))
                     {
+                        this.gameObject.layer = 6;
                         un_boost();
                     }
                 }
@@ -105,6 +110,7 @@ public class player_room_boost_mode : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down"))
                     {
+                        this.gameObject.layer = 6;
                         un_boost();
                     }
                 }
@@ -115,8 +121,9 @@ public class player_room_boost_mode : MonoBehaviour
                 booster_cancel_delay -= Time.deltaTime;
                 if (booster_cancel_delay <= 0)
                 {
-                    if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down"))
+                    if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down")||rgd2D.velocity.y==0)
                     {
+                        this.gameObject.layer = 6;
                         un_boost();
                     }
                 }
@@ -129,6 +136,7 @@ public class player_room_boost_mode : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Down"))
                     {
+                        this.gameObject.layer = 6;
                         un_boost();
                     }
                 }

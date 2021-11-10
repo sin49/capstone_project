@@ -375,8 +375,11 @@ MonoBehaviour:
   Attack_point: 3
   Defense_point: 0
   direction: 0
+  can_move: 0
+  on_dash: 0
   move_buffer: 0
   move_buffer_timer: 0.2
+  Downbuffertime: 0.2
   get_item: []
 --- !u!114 &43143051824998000
 MonoBehaviour:

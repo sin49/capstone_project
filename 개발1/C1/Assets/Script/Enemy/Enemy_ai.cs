@@ -10,6 +10,7 @@ public class Enemy_ai : MonoBehaviour
     private Quaternion rotation;
     float attack_timer;
     float attack_time;
+    bool weight_dir;
     GameObject Player;
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,35 @@ public class Enemy_ai : MonoBehaviour
             case 1://플레이어 추격(지형지물 무시)
                 dir = this.transform.position - Player.transform.position;
                 this.transform.Translate(dir * 2 * Time.deltaTime);
+                break;
+            case 2://플레이어 추격(지형지물 영향o)
+                dir = this.transform.position - Player.transform.position;
+                
+                if (this.transform.position.x > Player.transform.position.x + 4)
+                {
+                    weight_dir = true;
+                }
+                else if (this.transform.position.x < Player.transform.position.x - 4)
+                {
+                    weight_dir = false;
+                }
+
+                if (weight_dir)
+                {
+                    transform.Translate(2 * Vector3.left * Time.deltaTime);
+                }
+                else
+                {
+                    transform.Translate(Vector3.right * 2 * Time.deltaTime);
+                }
+                if (this.transform.position.y < Player.transform.position.y)//레이캐스트 위로 쏴서 통과가능 플랫폼있으면 점프
+                {
+
+                }
+                else if (this.transform.position.y > Player.transform.position.y)//레이캐스트 아래로 쏴서 통과가능 플랫폼이 있으면 내려가기
+                {
+
+                }
                 break;
             default:
                 break;

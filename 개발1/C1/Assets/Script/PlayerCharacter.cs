@@ -33,7 +33,9 @@ public class PlayerCharacter : GameCharacter
      Vector2 dash_direction;
     float dash_time = 1f;
    float dash_timer = 0;
+    [SerializeField]
     bool can_move;
+    [SerializeField]
     bool on_dash;
     [SerializeField]
     float move_buffer;
@@ -52,7 +54,8 @@ public class PlayerCharacter : GameCharacter
 
     [Header("platform")]
     bool on_platform;
-    float Downbuffertime = 0.5f;
+    bool on_corutine_1;
+    public float Downbuffertime = 1f;
     float Downbuffertimer;
     float layer_change_time=0.2f;
     float layer_change_timer;
@@ -269,11 +272,12 @@ public class PlayerCharacter : GameCharacter
                 Downbuffertimer -= Time.deltaTime;
                 if(Input.GetButtonDown("Down") && on_platform && Downbuffertimer >= 0)
                 {
-                    layer_change_timer = layer_change_time;
-                    this.gameObject.layer = 10;
+                    //layer_change_timer = layer_change_time;
+                    if(!on_corutine_1)
+                        StartCoroutine(downplatform());
                 }
             }
-            if (layer_change_timer > 0)
+            /*if (layer_change_timer > 0)
             {
                 layer_change_timer -= Time.deltaTime;
 
@@ -281,7 +285,7 @@ public class PlayerCharacter : GameCharacter
             else
             {
                 this.gameObject.layer = 6;
-            }
+            }*/
         }
         if (!on_dash)
         {
@@ -475,6 +479,18 @@ public class PlayerCharacter : GameCharacter
                 on_platform = false;
             }
         }
+    }
+    IEnumerator downplatform()
+    { // 처음에 FireState를 false로 만들고
+        var wait = new WaitForSeconds(Downbuffertime);
+        Debug.Log("코루틴");
+        on_corutine_1 = true;
+        this.gameObject.layer = 10;
+        yield return wait;
+       
+        on_corutine_1 = false;
+        this.gameObject.layer = 6;
+        Debug.Log("코루틴해제");
     }
 }
 
