@@ -17,6 +17,13 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       /* for (int i = 0; i < Use_InvenData.Count; i++)
+        {
+
+                int a = get_item[i].get_Itemcode();
+                Debug.Log(i);
+                ItemEffect0.item0to10.effect(a);
+        }*/
         if (Input.GetKeyDown(KeyCode.F))
         {
             CheckList();

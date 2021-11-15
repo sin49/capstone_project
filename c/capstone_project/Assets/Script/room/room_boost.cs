@@ -25,11 +25,24 @@ public class room_boost : MonoBehaviour
         {
             Timer -= Time.deltaTime;
             if (Timer > 0) {
-                grab_object.GetComponent<PlayerCharacter>().set_col_boost(true);
-                grab_object.GetComponent<player_room_boost_mode>().boost_pos = this.transform.position;
-                Vector2 dir = (transform.position - grab_object.transform.position);
-                //if (Mathf.Sqrt(Mathf.Abs(dir.x)* Mathf.Abs(dir.y)) >0.1) { 
-                    grab_object.GetComponent<Rigidbody2D>().AddForce(dir * force);
+                if (!grab_object.GetComponent<player_room_boost_mode>().on_boost)
+                {
+                    grab_object.GetComponent<PlayerCharacter>().set_col_boost(true);
+                    grab_object.GetComponent<player_room_boost_mode>().boost_pos = this.transform.position;
+                    //if (Mathf.Sqrt(Mathf.Abs(dir.x)* Mathf.Abs(dir.y)) >0.1) { 
+
+                    grab_object.transform.position = this.transform.position;
+                }
+                else
+                {
+                    grab_object.GetComponent<PlayerCharacter>().set_col_boost(false);
+
+                    grab_object = null;
+
+                    active_timer = active_timer_max;
+                    active = false;
+                    Timer = 0;
+                }
                // }
                 //else
                // {
@@ -38,6 +51,7 @@ public class room_boost : MonoBehaviour
                     }
             else
             {
+                this.gameObject.layer = 6;
                 grab_object.GetComponent<player_room_boost_mode>().un_boost();
                 grab_object.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 grab_object = null;
@@ -77,6 +91,7 @@ public class room_boost : MonoBehaviour
             collision.gameObject.GetComponent<PlayerCharacter>().set_col_boost(false);
             
             grab_object = null;
+            
             active_timer = active_timer_max;
             active = false;
             Timer = 0;

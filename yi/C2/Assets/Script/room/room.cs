@@ -193,6 +193,7 @@ public class room : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             //on_player = false;
+            
         }
         if (collision.CompareTag("Enemy"))
         {

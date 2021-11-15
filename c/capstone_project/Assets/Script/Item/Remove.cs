@@ -6,13 +6,12 @@ using UnityEngine;
 public class Remove : MonoBehaviour
 {
     public Item item;
-    public void Removeit()
-    {
-
-           item = this.gameObject.GetComponent<DragAndDrop>().itemdata;
-        if(item.SlotNumber>=100)
-        {
-            Inventory.Item_Inven.RemoveAt(item.DataNumber);
-        }
-    }
+    //public void removeit()
+    //{
+    //       item = this.gameobject.getcomponent<draganddrop>().itemdata;
+    //    if(item.slotnumber>=100)
+    //    {
+    //        inventory.item_inven.removeat(item.datanumber);
+    //    }
+    //}
 }

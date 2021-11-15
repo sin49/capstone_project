@@ -62,12 +62,14 @@ public class Slot : MonoBehaviour
         {
             Debug.Log("장착" + item.Sprite.name);
             Inventory.Use_InvenData.Add(item);      //장착
+            ItemEffect0.item0to10.effect(item.Foreignkey);
             Inventory.Item_InvenData.Remove(item);  //인벤슬롯해제
         }
         else
         {
             Debug.Log("인벤" + item.Sprite.name);
             Inventory.Item_InvenData.Add(item);     //인벤슬롯넣기
+            ItemEffect0.item0to10.un_effect(item.Foreignkey);
             Inventory.Use_InvenData.Remove(item);   //장착해제
         }
     }

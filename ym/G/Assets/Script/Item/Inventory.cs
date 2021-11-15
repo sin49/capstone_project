@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    static public List<Item> Item_Inven= new List<Item>();    //인벤
-    static public List<Item> Use_Inven = new List<Item>();     //파츠 장착
-    
+    static public List<Item> Item_InvenData = new List<Item>();    //인벤
+    static public List<Item> Use_InvenData = new List<Item>();     //파츠 장착
+
     public List<Slot> InvenSlot;           //슬롯자리
     public List<Slot> UseInveSlot;         //슬롯자리
-    
-    public int Item_InvenCount=16;     //인벤토리 슬롯 갯수
-    public int Use_InvenCount;      //사용되고 있는 슬롯 갯수
+
+    public int Item_InvenDataCount = 16;     //인벤토리 슬롯 갯수
+    public int Use_InvenDataCount;      //사용되고 있는 슬롯 갯수
 
 
     // Update is called once per frame
     void Update()
     {
-        
+       /* for (int i = 0; i < Use_InvenData.Count; i++)
+        {
+
+                int a = get_item[i].get_Itemcode();
+                Debug.Log(i);
+                ItemEffect0.item0to10.effect(a);
+        }*/
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            CheckList();
+        }
     }
     private void Start()
     {
@@ -25,13 +35,36 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public void Refresh()
+    public void Refresh()       //먹은 아이템 슬롯에 집어넣기
     {
-        for (int i = 0; i < Item_Inven.Count; i++)     //현재 가지고 있는 아이템 표시
+        
+        for(int i=0;i< InvenSlot.Count;i++)     //슬롯검사
         {
-            InvenSlot[Item_Inven[i].SlotNumber].Gain(Item_Inven[i].Sprite);
-            InvenSlot[Item_Inven[i].SlotNumber].ChoseItem(Item_Inven[i]);
-            Debug.Log("아이템 슬롯: " + i + "아이템 들어간 곳" + Item_Inven[i].SlotNumber + "아이템 이름" + Item_Inven[i].Foreignkey +"아이템 그림:"+ Item_Inven[i].Sprite.name);
+            if(!InvenSlot[i].FullCheck)
+            {
+                InvenSlot[i].item = Item_InvenData[Item_InvenData.Count - 1];   //슬롯을 찾아 넣는다 (가장 마지막에 들어온 아이템)
+                InvenSlot[i].ClassCheck();
+                break;
+            }
         }
     }
+
+
+    public void CheckList()
+    {
+        Debug.Log("인벤 아이템");
+        for (int i = 0; i < Item_InvenData.Count; i++)    
+        {
+           
+            Debug.Log("아이템 데이터 번호: "+i+"슬롯: " + Item_InvenData[i].SlotNumber + "이름" + Item_InvenData[i].Foreignkey + "이미지"+Item_InvenData[i].Sprite);
+        }
+        Debug.Log("사용중인 아이템");
+        for (int i = 0; i < Use_InvenData.Count; i++)
+        {
+            
+            Debug.Log("아이템 데이터 번호: " + i + "슬롯: " + Use_InvenData[i].SlotNumber + "이름" + Use_InvenData[i].Foreignkey + "이미지" + Use_InvenData[i].Sprite);
+        }
+    }
+
+    
 }

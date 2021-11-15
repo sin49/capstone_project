@@ -23,14 +23,14 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (GameObject.FindGameObjectWithTag("room"))
+        /*if (GameObject.FindGameObjectWithTag("room"))
         {
             target = GameObject.FindGameObjectWithTag("room").transform;
-        }
-        /*if (GameObject.FindGameObjectWithTag("Player"))
+        }*/
+        if (GameObject.FindGameObjectWithTag("Player"))
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
-        }*/
+        }
         if (target != null)
         {
             transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * speed);
